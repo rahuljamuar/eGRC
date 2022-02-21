@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server",
-    "test": "jest"
+    "test": ""
   },
   "author": "",
   "license": "ISC",
@@ -32,19 +32,5 @@
     "@services": "_services",
     "@controllers": "_controllers",
     "@lang": "_lang"
-  },
-  "jest": {
-    "testRegex": ".*.jest-test.js$",
-    "moduleDirectories": [
-      "node_modules",
-      "."
-    ],
-    "moduleNameMapper": {
-      "^@services(.*)$": "<rootDir>/_services$1",
-      "^@helpers(.*)$": "<rootDir>/_helpers$1",
-      "^@models(.*)$": "<rootDir>/_models$1",
-      "^@controllers(.*)$": "<rootDir>/_controllers$1",
-      "^@lang(.*)$": "<rootDir>/_lang$1"
-    }
   }
 }
