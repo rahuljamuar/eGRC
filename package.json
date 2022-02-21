@@ -4,7 +4,7 @@
   "description": "eGRC Tool",
   "main": "index.js",
   "scripts": {
-    "start": "node server",
+    "start": "node index",
     "test": ""
   },
   "author": "",
