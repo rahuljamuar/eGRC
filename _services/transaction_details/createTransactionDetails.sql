@@ -1,1 +1,0 @@
--- Insert all transaction data in Transaction table

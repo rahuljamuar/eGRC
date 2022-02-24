@@ -1,10 +1,13 @@
-'use strict';
+// 'use strict';
 const express = require('express');
 const config = require('./config');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const control_details_routes = require('./_routes/control_details');
+const question_details_routes = require('./_routes/question_details');
 const mapping_routes = require('./_routes/mapping');
+const share_link_routes = require('./_routes/share_link');
+const transaction_routes = require('./_routes/transaction');
+
 
 
 
@@ -14,8 +17,13 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api', control_details_routes.routes);
-app.use('/api', mapping_routes.routes);
+
+
+
+app.use('/api/question', question_details_routes.routes);
+app.use('/api/mapping', mapping_routes.routes);
+app.use('/api/share_link', share_link_routes.routes);
+app.use('/api/transaction', transaction_routes.routes);
 
 
 

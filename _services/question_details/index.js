@@ -1,6 +1,7 @@
 'use strict';
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
+const logger = require('../../_helpers/logger');
 // const sql = require('mssql');
 
 
@@ -22,6 +23,20 @@ const getById = async(control_details_id) => {
         const control_details = await pool.request()
                             .input('control_id', sql.NVarChar, control_details_id)
                             .query(sql_queries.controlDetailsById);
+        return control_details.recordset;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+const getBySetNo = async(set_no) => {
+    try {
+        logger.info("Get All Question Details By Set No " + set_no);
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('question_details');        
+        const control_details = await pool.request()
+                            .input('set_no', sql.NVarChar, set_no)
+                            .query(sql_queries.questionDetailsBySetNo);
         return control_details.recordset;
     } catch (error) {
         return error.message;
@@ -81,6 +96,7 @@ const deleteControlDetails = async (control_details_id) => {
 module.exports = {
     getControlDetails,
     getById,
+    getBySetNo,
     createControlDetails,
     updateControlDetails,
     deleteControlDetails

@@ -21,6 +21,16 @@ const getShareLink = async (req, res, next) => {
     }
 }
 
+const getByMappingId = async (req, res, next) => {
+    try {
+        const mapping_id = req.query.mapping_id;
+        const share_link = await share_link_data.getByMappingId(mapping_id);
+        res.send(share_link);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
 const addShareLink = async (req, res, next) => {
     try {
         const data = req.body;
@@ -55,6 +65,7 @@ const deleteShareLink = async (req, res, next) => {
 module.exports = {
     getAllShareLink,
     getShareLink,
+    getByMappingId,
     addShareLink,
     updateShareLink,
     deleteShareLink

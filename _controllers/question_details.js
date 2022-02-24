@@ -21,6 +21,16 @@ const getQuestionDetails = async (req, res, next) => {
     }
 }
 
+const getBySetNo = async (req, res, next) => {
+    try {
+        const set_no = req.query.set_no;
+        const question_details = await question_details_data.getBySetNo(set_no);
+        res.send(question_details);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
 const addQuestionDetails = async (req, res, next) => {
     try {
         const data = req.body;
@@ -55,6 +65,7 @@ const deleteQuestionDetails = async (req, res, next) => {
 module.exports = {
     getAllQuestionDetails,
     getQuestionDetails,
+    getBySetNo,
     addQuestionDetails,
     updateQuestionDetails,
     deleteQuestionDetails

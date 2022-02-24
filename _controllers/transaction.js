@@ -1,6 +1,6 @@
 'use strict';
 
-const transaction_details_data = require('../_services/transaction_details');
+const transaction_details_data = require('../_services/transaction');
 
 const getAllTransactionDetails = async (req, res, next) => {
     try {        
@@ -21,11 +21,11 @@ const getTransactionDetails = async (req, res, next) => {
     }
 }
 
-const addTransactionDetails = async (req, res, next) => {
+const createTransaction = async (req, res, next) => {
     try {
         const data = req.body;
-        const insert = await transaction_details_data.creatTransactionDetails(data);
-        res.send(insert);
+        const ids = await transaction_details_data.createTransaction(data);
+        res.send(ids);
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -55,7 +55,7 @@ const deleteTransactionDetails = async (req, res, next) => {
 module.exports = {
     getAllTransactionDetails,
     getTransactionDetails,
-    addTransactionDetails,
+    createTransaction,
     updateTransactionDetails,
     deleteTransactionDetails
 }

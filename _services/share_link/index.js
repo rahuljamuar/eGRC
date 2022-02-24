@@ -1,6 +1,7 @@
 'use strict';
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
+const logger = require('../../_helpers/logger');
 // const sql = require('mssql');
 
 
@@ -22,6 +23,20 @@ const getById = async(control_details_id) => {
         const control_details = await pool.request()
                             .input('control_id', sql.NVarChar, control_details_id)
                             .query(sql_queries.controlDetailsById);
+        return control_details.recordset;
+    } catch (error) {
+        return error.message;
+    }
+}
+
+const getByMappingId = async(mapping_id) => {
+    try {
+        logger.info("Get All Share Link By Mapping ID " + mapping_id);
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('share_link');        
+        const control_details = await pool.request()
+                            .input('mapping_id', sql.Numeric, mapping_id)
+                            .query(sql_queries.shareLinkByMappingId);
         return control_details.recordset;
     } catch (error) {
         return error.message;
@@ -81,6 +96,7 @@ const deleteControlDetails = async (control_details_id) => {
 module.exports = {
     getControlDetails,
     getById,
+    getByMappingId,
     createControlDetails,
     updateControlDetails,
     deleteControlDetails
