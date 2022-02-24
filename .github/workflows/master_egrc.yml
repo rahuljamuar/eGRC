@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'egrc'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C585106D936B4CCDA726E41343A68FF8 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_BFD782D0D6564700BEE44A147606532B }}
           package: .
