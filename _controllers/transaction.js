@@ -31,6 +31,16 @@ const createTransaction = async (req, res, next) => {
     }
 }
 
+const getByMappingId = async (req, res, next) => {
+    try {
+        const mapping_id = req.query.mapping_id;
+        const transaction = await transaction_details_data.getByMappingId(mapping_id);
+        res.send(transaction);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
 const updateTransactionDetails = async (req, res, next) => {
     try {
         const transaction_details_id =  req.params.id;
@@ -55,6 +65,7 @@ const deleteTransactionDetails = async (req, res, next) => {
 module.exports = {
     getAllTransactionDetails,
     getTransactionDetails,
+    getByMappingId,
     createTransaction,
     updateTransactionDetails,
     deleteTransactionDetails

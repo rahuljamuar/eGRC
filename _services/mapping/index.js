@@ -22,10 +22,10 @@ const getMapping = async () => {
 const getMappingByUserCurrentMonth = async (user_id) => {
     try {
         logger.info("Get All Mapping By User ID " + user_id);
-        const execution_month = getCurrentDate("month");
-        const execution_year = getCurrentDate("year");
+        const execution_month = getCurrentExecutingDate("month");
+        const execution_year = getCurrentExecutingDate("year");       
         const status = "A";
-        const is_active = "Y";
+        const freezed = "N";
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
         const mapping_list = await pool.request()
@@ -33,7 +33,7 @@ const getMappingByUserCurrentMonth = async (user_id) => {
             .input('execution_month', sql.NVarChar, execution_month)
             .input('execution_year', sql.Numeric, execution_year)
             .input('status', sql.NVarChar, status)
-            .input('is_active', sql.NVarChar, is_active)
+            .input('freezed', sql.NVarChar, freezed)
             .query(sql_queries.mappingByUserGivenMonth);
         return mapping_list.recordset;
     } catch (error) {
@@ -46,7 +46,7 @@ const getMappingByUserGivenMonth = async (user_id, month, year) => {
         logger.info("Get All Mapping By User ID, Month, Year " + user_id);
        
         const status = "A";
-        const is_active = "Y";
+        const freezed = "N";
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
         const mapping_list = await pool.request()
@@ -54,7 +54,7 @@ const getMappingByUserGivenMonth = async (user_id, month, year) => {
             .input('execution_month', sql.NVarChar, month)
             .input('execution_year', sql.Numeric, year)
             .input('status', sql.NVarChar, status)
-            .input('is_active', sql.NVarChar, is_active)
+            .input('freezed', sql.NVarChar, freezed)
             .query(sql_queries.mappingByUserGivenMonth);
         return mapping_list.recordset;
     } catch (error) {
@@ -125,13 +125,23 @@ const deleteMapping = async (mapping_id) => {
     }
 }
 
-function getCurrentDate(param) {
+function getCurrentExecutingDate(param) {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var today = new Date();
     if (param == "month") {
-        return months[today.getMonth()];
+        if(months[today.getMonth()] == "Jan"){
+            return "Dec";
+        }else{
+            return months[today.getMonth() - 1];
+        }
+        
     } else {
-        return today.getFullYear();
+        if(months[today.getMonth()] == "Jan"){
+            return today.getFullYear() - 1;
+        }else{
+            return today.getFullYear();
+        }
+        
     }
 }
 

@@ -29,6 +29,19 @@ const getById = async (control_details_id) => {
     }
 }
 
+const getByMappingId = async (mapping_id) => {
+    try {
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('transaction');
+        const transaction = await pool.request()
+            .input('mapping_id', sql.Numeric, mapping_id)
+            .query(sql_queries.transactionByMappingId);
+        return transaction.recordset;
+    } catch (error) {
+        return error.message;
+    }
+}
+
 const createTransaction = async (transaction_data) => {
     try {
         logger.info("Inserting data in transaction " + transaction_data);
@@ -103,6 +116,7 @@ const deleteControlDetails = async (control_details_id) => {
 module.exports = {
     getControlDetails,
     getById,
+    getByMappingId,
     createTransaction,
     updateControlDetails,
     deleteControlDetails
