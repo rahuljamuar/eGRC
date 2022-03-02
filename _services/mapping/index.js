@@ -29,7 +29,7 @@ const getMappingByUserCurrentMonth = async (user_id) => {
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
         const mapping_list = await pool.request()
-            .input('user_id', sql.Numeric, user_id)
+            .input('user_id', sql.NVarChar, user_id)
             .input('execution_month', sql.NVarChar, execution_month)
             .input('execution_year', sql.Numeric, execution_year)
             .input('status', sql.NVarChar, status)
@@ -50,7 +50,7 @@ const getMappingByUserGivenMonth = async (user_id, month, year) => {
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
         const mapping_list = await pool.request()
-            .input('user_id', sql.Numeric, user_id)
+            .input('user_id', sql.NVarChar, user_id)
             .input('execution_month', sql.NVarChar, month)
             .input('execution_year', sql.Numeric, year)
             .input('status', sql.NVarChar, status)

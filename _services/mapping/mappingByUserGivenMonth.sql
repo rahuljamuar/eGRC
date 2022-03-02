@@ -7,28 +7,28 @@
 
 select distinct 
 A.mapping_id,
-A.User_id,
-A.SetNo,
+A.user_id,
+A.set_no,
 A.status,
 A.executing_month,
 A.executing_year, 
-B.Control_Owner,
-B.Control_Owner_email,
-A.Country_id, 
-D.Country_name,
-A.Control_id, 
-A.Control,
-C.Control_name,
-C.Control_Description,
-C.Control_Frequency
-from mapping_table A left join User_Details B on A.User_id=B.User_id
-left join Control_Details C on C.Control_id=A.Control_id and C.Control=A.Control
+B.control_owner,
+B.control_owner_email,
+A.country_id, 
+D.country_name,
+A.control_id, 
+A.control,
+C.control_name,
+C.control_description,
+C.control_frequency
+from mapping_table A left join user_details B on A.user_id=B.user_id
+left join control_details C on C.control_id=A.control_id and C.control=A.control
 left join country_details D on D.country_id=A.country_id
 where executing_Month=@execution_month
 and executing_year=@execution_year
 and A.user_id=@user_id
 and A.status=@status
-and A.Freezed=@freezed
-and B.Is_Active='Y'
-and C.Is_Active='Y'
-and D.Active='Y'
+and A.freezed=@freezed
+and B.is_active='Y'
+and C.is_active='Y'
+and D.active='Y'

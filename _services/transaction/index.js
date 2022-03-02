@@ -44,16 +44,15 @@ const getByMappingId = async (mapping_id) => {
 
 const createTransaction = async (transaction_data) => {
     try {
-        logger.info("Inserting data in transaction " + transaction_data);
+        logger.info("Inserting data in transaction ");
         var transaction_ids = [];
-        for (var i = 0; i < transaction_data.length; i++) {
-
+        for (var i = 0; i < transaction_data.length; i++) {            
             const pool = await poolPromise;
             const sql_queries = await utils.loadSqlQueries('transaction');
             const transaction = await pool.request()
                 .input('mapping_id', sql.Numeric, transaction_data[i].mapping_id)
                 .input('country_id', sql.Numeric, transaction_data[i].country_id)
-                .input('user_id', sql.Numeric, transaction_data[i].user_id)
+                .input('user_id', sql.NVarChar, transaction_data[i].user_id)
                 .input('control_id', sql.NVarChar, transaction_data[i].control_id)
                 .input('task_no', sql.NVarChar, transaction_data[i].task_no)
                 .input('response_no', sql.NVarChar, transaction_data[i].response_no)
@@ -72,7 +71,7 @@ const createTransaction = async (transaction_data) => {
             var result = JSON.stringify(transaction.recordset);;
             var temp_id = result.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
             var id = JSON.parse(temp_id);           
-            transaction_ids.push(id[0].Transaction_Id);
+            transaction_ids.push(id[0].transaction_id);
            
         }
         return transaction_ids;
