@@ -2,10 +2,11 @@
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
 const logger = require('../../_helpers/logger');
-// const sql = require('mssql');
+const validateToken = require('../../_helpers/validateToken');
 
 
 const getControlDetails = async () => {
+    await validateToken(email, token);
     try {                   
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('control_details');        
@@ -29,15 +30,16 @@ const getById = async(control_details_id) => {
     }
 }
 
-const getBySetNo = async(set_no) => {
+const getBySetNo = async (email, token, set_no) => {
+    await validateToken(email, token);
     try {
         logger.info("Get All Question Details By Set No " + set_no);
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('question_details');        
-        const control_details = await pool.request()
+        const questions = await pool.request()
                             .input('set_no', sql.NVarChar, set_no)
                             .query(sql_queries.questionDetailsBySetNo);
-        return control_details.recordset;
+        return questions.recordset;
     } catch (error) {
         return error.message;
     }

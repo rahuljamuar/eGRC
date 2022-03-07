@@ -2,7 +2,7 @@
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
 const logger = require('../../_helpers/logger');
-// const sql = require('mssql');
+const validateToken = require('../../_helpers/validateToken');
 
 
 
@@ -19,7 +19,8 @@ const getMapping = async () => {
 }
 
 
-const getMappingByUserCurrentMonth = async (user_id) => {
+const getMappingByUserCurrentMonth = async (email, token, user_id) => {
+    await validateToken(email, token);
     try {
         logger.info("Get All Mapping By User ID " + user_id);
         const execution_month = getCurrentExecutingDate("month");
@@ -41,7 +42,8 @@ const getMappingByUserCurrentMonth = async (user_id) => {
     }
 }
 
-const getMappingByOwnerFilter = async (user_id, executing_month, executing_year, status, country_id, control) => {
+const getMappingByOwnerFilter = async (email, token, user_id, executing_month, executing_year, status, country_id, control) => {
+    await validateToken(email, token);
     try {
         logger.info("Get All Mapping By Owner Filter " + user_id);  
         const freezed = "N";      
@@ -77,7 +79,8 @@ const updateMappingStatus = async (mapping_id, status) => {
     }
 }
 
-const getMappingByUserGivenMonth = async (user_id, month, year) => {
+const getMappingByUserGivenMonth = async (email, token, user_id, month, year) => {
+    await validateToken(email, token);
     try {
         logger.info("Get All Mapping By User ID, Month, Year " + user_id);
        

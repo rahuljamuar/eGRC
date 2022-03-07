@@ -2,7 +2,7 @@
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
 const logger = require('../../_helpers/logger');
-// const sql = require('mssql');
+const validateToken = require('../../_helpers/validateToken');
 
 
 const getControlDetails = async () => {
@@ -29,7 +29,8 @@ const getById = async(control_details_id) => {
     }
 }
 
-const getByMappingId = async(mapping_id) => {
+const getByMappingId = async(email, token, mapping_id) => {
+    await validateToken(email, token);
     try {
         logger.info("Get All Share Link By Mapping ID " + mapping_id);
         const pool = await poolPromise;

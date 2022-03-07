@@ -3,6 +3,9 @@ const express = require('express');
 const config = require('./config');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const errorHandler = require('./_helpers/error-handler');
+const logger = require('./_helpers/logger');
+
 const question_details_routes = require('./_routes/question_details');
 const mapping_routes = require('./_routes/mapping');
 const share_link_routes = require('./_routes/share_link');
@@ -20,7 +23,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-
+app.all("*", (req, res, next) => {  
+  logger.info("Incoming request", { meta: { method: req.method, url: req.originalUrl, IP: req.ips } }); 
+  return next();
+})
 
 app.use('/api/question', question_details_routes.routes);
 app.use('/api/mapping', mapping_routes.routes);
@@ -30,6 +36,10 @@ app.use('/api/utility', utility_routes.routes);
 app.use('/api/user', user_routes.routes);
 
 
+// global error handler
+app.use(errorHandler);
+
+app.set('trust proxy', true);
 
 app.listen(config.port, () => {
   console.log('app listening on port:' + config.port )

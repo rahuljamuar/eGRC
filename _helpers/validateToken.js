@@ -1,50 +1,21 @@
-require('module-alias/register');
-const logger = require('@helpers/logger');
-const config = require('config.json');
-const errorCode = require('@helpers/error-codes');
-require('dotenv').config({ silent: true });
-const errObj = {};
+const logger = require('./logger');
 
-async function validateToken(token, user_id) {
+async function validateToken(email, token) {
     try {
-        await validate(token, user_id);
+        await validate(email, token);
     } catch (e) {
-        errObj.code = errorCode.CE02000;
-        errObj.sys_message = e.message;
-        throw errObj;
+       throw e;
     }
 }
 
-async function validate(token, user_id) {
+async function validate(email, token) {
     return new Promise((resolve, reject) => {
-        logger.info("Validating access token for user ID " + user_id);
-        var request = require('request');
-        var options = {
-            'method': 'GET',
-            'url': (process.env.VALIDATE_TOKEN_URL || config.validateTokenURL) + token,
-            'headers': {
-            }
-        };
-        request(options, function (error, response) {
-            if (error) {
-                logger.error("Error in validating access token for user ID " + user_id + ". Error Message: " + error);
-                reject(new Error(error));
-            }
-            const result = JSON.parse(response.body);
-
-            if (result.body.tokenStatus == false) {
-                reject(new Error(result.body.tokenMessage));
-                return
-            }
-
-            if (result.body.mypayload.email != user_id) {
-                reject(new Error("Token is valid but it does not belong to user " + user_id));
-                return
-            }
-            logger.info("Validate Token API response " + result.body.tokenStatus);
-            resolve(result.body);
-        });
-
+        logger.info("Validating access token for email " + email);
+        if(email != "" && token == "test"){
+            resolve(true);
+        }else{
+            reject(new Error("Invalid email id/token"));
+        }  
 
     });
 }

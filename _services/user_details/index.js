@@ -2,7 +2,7 @@
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
 const logger = require('../../_helpers/logger');
-
+const validateToken = require('../../_helpers/validateToken');
 
 const getControlDetails = async () => {
     try {                   
@@ -15,13 +15,14 @@ const getControlDetails = async () => {
     }
 }
 
-const getByEmailId = async(email) => {
+const getByEmailId = async(email, token, email_id) => {
+    await validateToken(email, token);
     try {
-        logger.info("Get user details for email id " + email);
+        logger.info("Get user details for email id " + email_id);
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('user_details');        
         const user = await pool.request()
-                            .input('email', sql.NVarChar, email)
+                            .input('email', sql.NVarChar, email_id)
                             .query(sql_queries.userDetailsByEmail);
         const result = user.recordset;
         return result[0];

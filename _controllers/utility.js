@@ -1,16 +1,14 @@
 'use strict';
 
-const utility = require('../_services/utility');
+const utility_service = require('../_services/utility');
 
 
 const getOwnerDropdown = async (req, res, next) => {
-    try {
-        const user_id = req.query.user_id;        
-        const owner_dropdown = await utility.getOwnerDropdown(user_id);
-        res.send(owner_dropdown);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
+    const user_id = req.query.user_id;
+    utility_service.getOwnerDropdown(req.headers.email, req.headers.token, user_id)
+        .then(owner_dropdown => owner_dropdown ? res.json(owner_dropdown) : res.sendStatus(404))
+        .catch(err => next(err));
+
 }
 
 module.exports = {

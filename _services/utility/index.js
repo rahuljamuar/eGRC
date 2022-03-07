@@ -2,12 +2,13 @@
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
 const logger = require('../../_helpers/logger');
-// const sql = require('mssql');
+const validateToken = require('../../_helpers/validateToken');
 
 
 
 
-const getOwnerDropdown = async (user_id) => {
+const getOwnerDropdown = async (email, token, user_id) => {
+    await validateToken(email, token);
     try {
         logger.info("Getting owner dropdown for user id " + user_id);
         var drop_down = {};
@@ -15,7 +16,7 @@ const getOwnerDropdown = async (user_id) => {
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('utility');
         var status = await pool.request()
-            .input('user_id', sql.NVarChar, user_id)            
+            .input('user_id', sql.NVarChar, user_id)
             .query(sql_queries.statusForControlOwner);
         var country = await pool.request()
             .input('user_id', sql.NVarChar, user_id)
@@ -24,14 +25,6 @@ const getOwnerDropdown = async (user_id) => {
             .input('user_id', sql.NVarChar, user_id)
             .query(sql_queries.ownerDistinctControl);
 
-        // var result_status = JSON.stringify(status.recordset);;
-        // var temp_id_status = result_status.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
-        // var id_status = JSON.parse(temp_id_status);
-
-        // var statuses = [];
-        // for (var i = 0; i < id_status.length; i++) {
-        //     statuses.push(id_status[i].status_desc)
-        // }
         drop_down.status = status.recordset;
 
         var result_control = JSON.stringify(control.recordset);;

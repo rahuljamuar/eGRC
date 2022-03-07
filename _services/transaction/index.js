@@ -4,7 +4,7 @@ const { poolPromise, sql } = require('../../_helpers/db')
 const trigger_details = require('../trigger_details');
 const mapping_service = require('../mapping');
 const logger = require('../../_helpers/logger');
-// const sql = require('mssql');
+const validateToken = require('../../_helpers/validateToken');
 
 
 const getControlDetails = async () => {
@@ -31,7 +31,8 @@ const getById = async (control_details_id) => {
     }
 }
 
-const getByMappingId = async (mapping_id) => {
+const getByMappingId = async (email, token, mapping_id) => {
+    await validateToken(email, token);
     try {
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('transaction');
@@ -44,7 +45,8 @@ const getByMappingId = async (mapping_id) => {
     }
 }
 
-const createTransaction = async (transaction_data) => {
+const createTransaction = async (email, token, transaction_data) => {
+    await validateToken(email, token);
     try {
         logger.info("Inserting data in transaction ");
         var transaction_ids = [];

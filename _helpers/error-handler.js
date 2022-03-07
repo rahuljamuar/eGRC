@@ -92,5 +92,6 @@ function errorHandler(err, req, res, next) {
     // }
 
     // default to 500 server error
-    return res.json({ message: err.sys_message });
+    
+    return res.status(500).json({ message: err.message });
 }

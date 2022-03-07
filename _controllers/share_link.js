@@ -3,9 +3,9 @@
 const share_link_data = require('../_services/share_link');
 
 const getAllShareLink = async (req, res, next) => {
-    try {        
+    try {
         const share_link_list = await share_link_data.getShareLink();
-        res.send(share_link_list);        
+        res.send(share_link_list);
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -22,13 +22,13 @@ const getShareLink = async (req, res, next) => {
 }
 
 const getByMappingId = async (req, res, next) => {
-    try {
-        const mapping_id = req.query.mapping_id;
-        const share_link = await share_link_data.getByMappingId(mapping_id);
-        res.send(share_link);
-    } catch (error) {
-        res.status(400).send(error.message);
-    }
+
+    const mapping_id = req.query.mapping_id;
+    share_link_data.getByMappingId(req.headers.email, req.headers.token, mapping_id)
+        .then(share_link => share_link ? res.json(share_link) : res.sendStatus(404))
+        .catch(err => next(err));
+
+
 }
 
 const addShareLink = async (req, res, next) => {
@@ -43,7 +43,7 @@ const addShareLink = async (req, res, next) => {
 
 const updateShareLink = async (req, res, next) => {
     try {
-        const share_link_id =  req.params.id;
+        const share_link_id = req.params.id;
         const data = req.body;
         const updated = await share_link_data.updateShareLink(share_link_id, data);
         res.send(updated);
