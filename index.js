@@ -8,6 +8,7 @@ const mapping_routes = require('./_routes/mapping');
 const share_link_routes = require('./_routes/share_link');
 const transaction_routes = require('./_routes/transaction');
 const utility_routes = require('./_routes/utility');
+const user_routes = require('./_routes/user_details');
 
 
 
@@ -26,9 +27,10 @@ app.use('/api/mapping', mapping_routes.routes);
 app.use('/api/share_link', share_link_routes.routes);
 app.use('/api/transaction', transaction_routes.routes);
 app.use('/api/utility', utility_routes.routes);
+app.use('/api/user', user_routes.routes);
 
 
 
 app.listen(config.port, () => {
-  console.log('app listening on url http://localhost:' + config.port )
+  console.log('app listening on port:' + config.port )
 });

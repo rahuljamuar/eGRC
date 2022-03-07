@@ -11,10 +11,10 @@ const getAllUserDetails = async (req, res, next) => {
     }
 }
 
-const getUserDetails = async (req, res, next) => {
+const getByEmailId = async (req, res, next) => {
     try {
-        const user_details_id = req.params.id;
-        const user_details = await user_details_data.getById(user_details_id);
+        const email = req.query.email;
+        const user_details = await user_details_data.getByEmailId(email);
         res.send(user_details);
     } catch (error) {
         res.status(400).send(error.message);
@@ -54,7 +54,7 @@ const deleteUserDetails = async (req, res, next) => {
 
 module.exports = {
     getAllUserDetails,
-    getUserDetails,
+    getByEmailId,
     addUserDetails,
     updateUserDetails,
     deleteUserDetails

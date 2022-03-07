@@ -1,6 +1,8 @@
 'use strict';
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
+const trigger_details = require('../trigger_details');
+const mapping_service = require('../mapping');
 const logger = require('../../_helpers/logger');
 // const sql = require('mssql');
 
@@ -72,8 +74,9 @@ const createTransaction = async (transaction_data) => {
             var temp_id = result.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
             var id = JSON.parse(temp_id);           
             transaction_ids.push(id[0].transaction_id);
-           
         }
+        await mapping_service.updateMappingStatus(transaction_data[0].mapping_id, 3);
+        await trigger_details.updateResponseDate(transaction_data[0].mapping_id, transaction_data[0].response_date)
         return transaction_ids;
     } catch (error) {
         return error.message;

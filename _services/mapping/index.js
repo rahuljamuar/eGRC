@@ -24,7 +24,7 @@ const getMappingByUserCurrentMonth = async (user_id) => {
         logger.info("Get All Mapping By User ID " + user_id);
         const execution_month = getCurrentExecutingDate("month");
         const execution_year = getCurrentExecutingDate("year");       
-        const status = "A";
+        const status = 1;
         const freezed = "N";
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
@@ -32,7 +32,7 @@ const getMappingByUserCurrentMonth = async (user_id) => {
             .input('user_id', sql.NVarChar, user_id)
             .input('execution_month', sql.NVarChar, execution_month)
             .input('execution_year', sql.Numeric, execution_year)
-            .input('status', sql.NVarChar, status)
+            .input('status', sql.Numeric, status)
             .input('freezed', sql.NVarChar, freezed)
             .query(sql_queries.mappingByUserGivenMonth);
         return mapping_list.recordset;
@@ -41,11 +41,47 @@ const getMappingByUserCurrentMonth = async (user_id) => {
     }
 }
 
+const getMappingByOwnerFilter = async (user_id, executing_month, executing_year, status, country_id, control) => {
+    try {
+        logger.info("Get All Mapping By Owner Filter " + user_id);  
+        const freezed = "N";      
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        const mapping_list = await pool.request()
+            .input('user_id', sql.NVarChar, user_id)
+            .input('executing_month', sql.NVarChar, executing_month)
+            .input('executing_year', sql.Numeric, executing_year)
+            .input('status', sql.Numeric, status)
+            .input('country_id', sql.Numeric, country_id)
+            .input('control', sql.NVarChar, control)
+            .input('freezed', sql.NVarChar, freezed)
+            .query(sql_queries.mappingByOwnerFilter);
+        return mapping_list.recordset;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+const updateMappingStatus = async (mapping_id, status) => {
+    try {
+        logger.info("Update Mapping Status for Mapping ID " + mapping_id);
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        const update = await pool.request()
+            .input('mapping_id', sql.Numeric, mapping_id)
+            .input('status', sql.Numeric, status)            
+            .query(sql_queries.updateMappingStatus);
+        return update.recordset;
+    } catch (error) {
+        return error.message;
+    }
+}
+
 const getMappingByUserGivenMonth = async (user_id, month, year) => {
     try {
         logger.info("Get All Mapping By User ID, Month, Year " + user_id);
        
-        const status = "A";
+        const status = 1;
         const freezed = "N";
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
@@ -53,7 +89,7 @@ const getMappingByUserGivenMonth = async (user_id, month, year) => {
             .input('user_id', sql.NVarChar, user_id)
             .input('execution_month', sql.NVarChar, month)
             .input('execution_year', sql.Numeric, year)
-            .input('status', sql.NVarChar, status)
+            .input('status', sql.Numeric, status)
             .input('freezed', sql.NVarChar, freezed)
             .query(sql_queries.mappingByUserGivenMonth);
         return mapping_list.recordset;
@@ -88,25 +124,6 @@ const createMapping = async (mapping_data) => {
             .input('maxMembers', sql.Int, mapping_data.maxMembers)
             .query(sql_queries.createMapping);
         return insert_mapping.recordset;
-    } catch (error) {
-        return error.message;
-    }
-}
-
-const updateMapping = async (mapping_id, data) => {
-    try {
-        let pool = await sql.connect(config.sql);
-        const sql_queries = await utils.loadSqlQueries('mapping');
-        const update = await pool.request()
-            .input('mapping_id', sql.Int, mapping_id)
-            .input('eventTitle', sql.NVarChar(100), data.eventTitle)
-            .input('eventDescription', sql.NVarChar(1500), data.eventDescription)
-            .input('startDate', sql.Date, data.startDate)
-            .input('endDate', sql.Date, data.endDate)
-            .input('avenue', sql.NVarChar(200), data.avenue)
-            .input('maxMembers', sql.Int, data.maxMembers)
-            .query(sql_queries.updateMapping);
-        return update.recordset;
     } catch (error) {
         return error.message;
     }
@@ -150,7 +167,8 @@ module.exports = {
     getById,
     getMappingByUserCurrentMonth,
     getMappingByUserGivenMonth,
+    getMappingByOwnerFilter,
     createMapping,
-    updateMapping,
+    updateMappingStatus,
     deleteMapping
 }

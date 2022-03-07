@@ -1,7 +1,7 @@
 'use strict';
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
-// const sql = require('mssql');
+const logger = require('../../_helpers/logger');
 
 
 const getControlDetails = async () => {
@@ -15,14 +15,16 @@ const getControlDetails = async () => {
     }
 }
 
-const getById = async(control_details_id) => {
+const getByEmailId = async(email) => {
     try {
+        logger.info("Get user details for email id " + email);
         const pool = await poolPromise;
-        const sql_queries = await utils.loadSqlQueries('control_details');        
-        const control_details = await pool.request()
-                            .input('control_id', sql.NVarChar, control_details_id)
-                            .query(sql_queries.controlDetailsById);
-        return control_details.recordset;
+        const sql_queries = await utils.loadSqlQueries('user_details');        
+        const user = await pool.request()
+                            .input('email', sql.NVarChar, email)
+                            .query(sql_queries.userDetailsByEmail);
+        const result = user.recordset;
+        return result[0];
     } catch (error) {
         return error.message;
     }
@@ -80,7 +82,7 @@ const deleteControlDetails = async (control_details_id) => {
 
 module.exports = {
     getControlDetails,
-    getById,
+    getByEmailId,
     createControlDetails,
     updateControlDetails,
     deleteControlDetails

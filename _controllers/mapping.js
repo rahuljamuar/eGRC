@@ -43,6 +43,21 @@ const getMappingByUserGivenMonth = async (req, res, next) => {
     }
 }
 
+const getMappingByOwnerFilter = async (req, res, next) => {
+    try {        
+        const user_id = req.query.user_id;
+        const month = req.query.month;
+        const year = req.query.year;   
+        const status = req.query.status;
+        const country_id = req.query.country_id;        
+        const control = req.query.control;        
+        const mapping = await mapping_data.getMappingByOwnerFilter(user_id, month, year, status, country_id, control);
+        res.send(mapping);
+    } catch (error) {
+        res.status(400).send(error.message);
+    }
+}
+
 const addMapping = async (req, res, next) => {
     try {
         const data = req.body;
@@ -79,6 +94,7 @@ module.exports = {
     getMapping,
     getMappingByUserCurrentMonth,
     getMappingByUserGivenMonth,
+    getMappingByOwnerFilter,
     addMapping,
     updateMapping,
     deleteMapping
