@@ -4,7 +4,6 @@ module.exports = errorHandler;
 const current_lang = 'en';
 
 function errorHandler(err, req, res, next) {
-    
     // if(err.code == "CE01000"){
     //     const error_message = lang.langTrans(current_lang, err.code) + ": " + err.sys_message;
     //     return res.status(500).json({code: err.code, message: error_message})

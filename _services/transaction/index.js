@@ -5,6 +5,7 @@ const trigger_details = require('../trigger_details');
 const mapping_service = require('../mapping');
 const logger = require('../../_helpers/logger');
 const validateToken = require('../../_helpers/validateToken');
+const { exitOnError } = require('../../_helpers/logger');
 
 
 const getControlDetails = async () => {
@@ -31,8 +32,11 @@ const getById = async (control_details_id) => {
     }
 }
 
-const getByMappingId = async (email, token, mapping_id) => {
-    await validateToken(email, token);
+const getByMappingId = async (email, token, mapping_id, validate_token = true) => {
+    if (validate_token) {
+        await validateToken(email, token);
+    }
+
     try {
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('transaction');
@@ -49,11 +53,17 @@ const createTransaction = async (email, token, transaction_data) => {
     await validateToken(email, token);
     try {
         logger.info("Inserting data in transaction ");
-        var transaction_ids = [];
-        for (var i = 0; i < transaction_data.length; i++) {            
-            const pool = await poolPromise;
-            const sql_queries = await utils.loadSqlQueries('transaction');
-            const transaction = await pool.request()
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('transaction');
+        const mapping_count = await pool.request()
+            .input('mapping_id', sql.Numeric, transaction_data[0].mapping_id)
+            .query(sql_queries.checkMappingIdExist);
+        var result = mapping_count.recordset;
+        if(result[0].Total > 0){
+            throw new Error("Mapping ID " + transaction_data[0].mapping_id + " already exists in transaction.")
+        }        
+        for (var i = 0; i < transaction_data.length; i++) {
+            await pool.request()
                 .input('mapping_id', sql.Numeric, transaction_data[i].mapping_id)
                 .input('country_id', sql.Numeric, transaction_data[i].country_id)
                 .input('user_id', sql.NVarChar, transaction_data[i].user_id)
@@ -71,15 +81,36 @@ const createTransaction = async (email, token, transaction_data) => {
                 .input('is_deleted', sql.NVarChar, "N")
                 .query(sql_queries.createTransaction);
 
-                // var id = JSON.stringify(transaction.recordset);
-            var result = JSON.stringify(transaction.recordset);;
-            var temp_id = result.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
-            var id = JSON.parse(temp_id);           
-            transaction_ids.push(id[0].transaction_id);
         }
         await mapping_service.updateMappingStatus(transaction_data[0].mapping_id, 3);
-        await trigger_details.updateResponseDate(transaction_data[0].mapping_id, transaction_data[0].response_date)
-        return transaction_ids;
+        await trigger_details.updateResponseDate(transaction_data[0].mapping_id, transaction_data[0].response_date);
+        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id);
+        return updated_transaction;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const updateTransaction = async (email, token, transaction_data) => {
+    await validateToken(email, token);
+    try {
+        logger.info("Updating data in transaction ");
+
+        for (var i = 0; i < transaction_data.length; i++) {
+            const pool = await poolPromise;
+            const sql_queries = await utils.loadSqlQueries('transaction');
+            const transaction = await pool.request()
+                .input('transaction_id', sql.Numeric, transaction_data[i].transaction_id)
+                .input('response_description', sql.NVarChar, transaction_data[i].response_description)
+                .input('control_owner_response_comment', sql.NVarChar, transaction_data[i].control_owner_response_comment)
+                .input('last_updated_by', sql.NVarChar, transaction_data[i].last_updated_by)
+                .input('last_updated_date', sql.SmallDateTime, transaction_data[i].last_updated_date)
+                .query(sql_queries.updateTransaction);
+
+        }
+        await mapping_service.updateMappingStatus(transaction_data[0].mapping_id, 3);
+        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id)
+        return updated_transaction;
     } catch (error) {
         return error.message;
     }
@@ -122,6 +153,7 @@ module.exports = {
     getById,
     getByMappingId,
     createTransaction,
+    updateTransaction,
     updateControlDetails,
     deleteControlDetails
 }

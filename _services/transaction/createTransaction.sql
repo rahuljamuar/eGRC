@@ -35,5 +35,3 @@ VALUES
         @last_updated_date,
         @is_deleted
     )
-
-SELECT SCOPE_IDENTITY() AS transaction_id

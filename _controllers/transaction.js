@@ -30,6 +30,15 @@ const createTransaction = async (req, res, next) => {
 
 }
 
+const updateTransaction = async (req, res, next) => {
+
+    const data = req.body;
+    transaction_details_service.updateTransaction(req.headers.email, req.headers.token, data)
+        .then(transaction => transaction ? res.json(transaction) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
 const getByMappingId = async (req, res, next) => {
 
     const mapping_id = req.query.mapping_id;
@@ -65,6 +74,7 @@ module.exports = {
     getTransactionDetails,
     getByMappingId,
     createTransaction,
+    updateTransaction,
     updateTransactionDetails,
     deleteTransactionDetails
 }
