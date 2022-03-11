@@ -49,6 +49,7 @@ const getMappingByOwnerFilter = async (email, token, user_id, executing_month, e
         const freezed = "N";      
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
+
         const mapping_list = await pool.request()
             .input('user_id', sql.NVarChar, user_id)
             .input('executing_month', sql.NVarChar, executing_month)
@@ -78,6 +79,8 @@ const updateMappingStatus = async (mapping_id, status) => {
         return error.message;
     }
 }
+
+
 
 const getMappingByUserGivenMonth = async (email, token, user_id, month, year) => {
     await validateToken(email, token);
@@ -165,6 +168,20 @@ function getCurrentExecutingDate(param) {
     }
 }
 
+const resetMapping = async (email, token) => {
+    await validateToken(email, token);
+    try {
+        logger.info("Reset Mapping request by " + email);
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        const reset = await pool.request()                
+            .query(sql_queries.reset);
+        return reset.recordset;
+    } catch (error) {
+        return error.message;
+    }
+}
+
 module.exports = {
     getMapping,
     getById,
@@ -172,6 +189,7 @@ module.exports = {
     getMappingByUserGivenMonth,
     getMappingByOwnerFilter,
     createMapping,
+    resetMapping,
     updateMappingStatus,
     deleteMapping
 }

@@ -28,6 +28,7 @@ const getMappingByUserCurrentMonth = async (req, res, next) => {
         .catch(err => next(err));
 }
 
+
 const getMappingByUserGivenMonth = async (req, res, next) => {
 
     const user_id = req.query.user_id;
@@ -84,6 +85,13 @@ const deleteMapping = async (req, res, next) => {
     }
 }
 
+const resetMapping = async (req, res, next) => {
+    
+    mapping_service.resetMapping(req.headers.email, req.headers.token)
+        .then(mapping => mapping ? res.json(mapping) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
 module.exports = {
     getAllMapping,
     getMapping,
@@ -92,5 +100,6 @@ module.exports = {
     getMappingByOwnerFilter,
     addMapping,
     updateMapping,
-    deleteMapping
+    deleteMapping,
+    resetMapping
 }
