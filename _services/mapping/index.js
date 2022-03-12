@@ -49,6 +49,12 @@ const getMappingByOwnerFilter = async (email, token, user_id, executing_month, e
         const freezed = "N";      
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
+        if(status == ""){
+            status = 0;
+        }
+        if(country_id == ""){
+            country_id = 0;
+        }
 
         const mapping_list = await pool.request()
             .input('user_id', sql.NVarChar, user_id)
@@ -174,9 +180,9 @@ const resetMapping = async (email, token) => {
         logger.info("Reset Mapping request by " + email);
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
-        const reset = await pool.request()                
+        await pool.request()                
             .query(sql_queries.reset);
-        return reset.recordset;
+        return "Reset Successful";
     } catch (error) {
         return error.message;
     }
