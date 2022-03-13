@@ -5,7 +5,7 @@ function createLogs(log_type, calling_function, module, email, parameter, messag
         if (log_type == "info") {
             logger.info(calling_function, { meta: { module: module, email: email, parameter: parameter } });
         } else if (log_type == "error") {
-            logger.info(calling_function, { meta: { module: module, email: email, parameter: parameter, error_message: message } });
+            logger.error(calling_function, { meta: { module: module, email: email, parameter: parameter, error_message: message } });
         }
 
     } catch (e) {
