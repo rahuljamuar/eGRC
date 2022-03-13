@@ -1,16 +1,16 @@
 'use strict';
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
-const logger = require('../../_helpers/logger');
+const createLogs = require('../../_helpers/createLogs');
+const elapsedTime = require('../../_helpers/elapsedTime');
 const validateToken = require('../../_helpers/validateToken');
-
-
 
 
 const getOwnerDropdown = async (email, token, user_id) => {
     await validateToken(email, token);
     try {
-        logger.info("Getting owner dropdown for user id " + user_id);
+        createLogs("info", "getOwnerDropdown", "Utility", email, user_id, "");
+        var start = new Date();
         var drop_down = {};
         // const status = ["New", "In Approval", "Complete"];
         const pool = await poolPromise;
@@ -36,7 +36,7 @@ const getOwnerDropdown = async (email, token, user_id) => {
         }
         drop_down.control = controls;
         drop_down.country = country.recordset;
-
+        elapsedTime(start, "getOwnerDropdown", "Utility");
         return drop_down;
     } catch (error) {
         return error.message;

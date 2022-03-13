@@ -8,6 +8,7 @@ router.get('/', mapping_controller.getAllMapping);
 // router.get('/:id', mapping_controller.getMapping);
 router.get('/current/', mapping_controller.getMappingByUserCurrentMonth);
 router.get('/given/', mapping_controller.getMappingByUserGivenMonth);
+router.get('/owner_view/', mapping_controller.getMappingForViewOwner);
 router.get('/owner_filter/', mapping_controller.getMappingByOwnerFilter);
 router.delete('/reset/', mapping_controller.resetMapping);
 // router.post('/', mapping_controller.addMapping);

@@ -41,6 +41,6 @@ app.use(errorHandler);
 
 app.set('trust proxy', true);
 
-app.listen(config.port, () => {
-  console.log('app listening on port:' + config.port )
+app.listen(config.port, () => {  
+  logger.info('Server started at port ' + config.port);
 });

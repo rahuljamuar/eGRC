@@ -11,17 +11,7 @@ const logger = createLogger({
             filename: 'info.log',
             level: 'info',
             format: format.combine(format.timestamp(), format.json())
-        }),
-        // new transports.MongoDB({
-        //     level: 'info',
-        //     db: process.env.MONGODB_URI,
-        //     metaKey:'meta',
-        //     options: {
-        //         useUnifiedTopology: true
-        //     },
-        //     collection: 'tms-log',
-        //     format: format.combine(format.timestamp(), format.json())
-        // }),
+        }),        
         new transports.Console({            
             level: 'error',
             format: format.combine(format.timestamp(), format.simple())
@@ -31,16 +21,6 @@ const logger = createLogger({
             level: 'error',
             format: format.combine(format.timestamp(), format.json())
         }),
-        // new transports.MongoDB({
-        //     level: 'error',
-        //     db: process.env.MONGODB_URI,
-        //     metaKey:'meta',
-        //     options: {
-        //         useUnifiedTopology: true
-        //     },
-        //     collection: 'tms-log',
-        //     format: format.combine(format.timestamp(), format.json())
-        // }),
         
     ], meta: true
 })

@@ -40,6 +40,13 @@ const getMappingByUserGivenMonth = async (req, res, next) => {
 
 }
 
+const getMappingForViewOwner = async (req, res, next) => {
+    const user_id = req.query.user_id;
+    mapping_service.getMappingForViewOwner(req.headers.email, req.headers.token, user_id)
+        .then(mapping => mapping ? res.json(mapping) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
 const getMappingByOwnerFilter = async (req, res, next) => {
 
     const user_id = req.query.user_id;
@@ -97,6 +104,7 @@ module.exports = {
     getMapping,
     getMappingByUserCurrentMonth,
     getMappingByUserGivenMonth,
+    getMappingForViewOwner,
     getMappingByOwnerFilter,
     addMapping,
     updateMapping,
