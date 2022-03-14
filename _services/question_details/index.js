@@ -19,7 +19,8 @@ const getBySetNo = async (email, token, set_no) => {
         elapsedTime(start, "getBySetNo", "Question");
         return questions.recordset;
     } catch (error) {
-        return error.message;
+        createLogs("error", "getBySetNo", "Question", email, set_no, error.message);
+        throw error;
     }
 }
 

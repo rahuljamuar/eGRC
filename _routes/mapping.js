@@ -4,16 +4,14 @@ const express = require('express');
 const mapping_controller = require('../_controllers/mapping');
 const router = express.Router();
 
-router.get('/', mapping_controller.getAllMapping);
-// router.get('/:id', mapping_controller.getMapping);
+
 router.get('/current/', mapping_controller.getMappingByUserCurrentMonth);
 router.get('/given/', mapping_controller.getMappingByUserGivenMonth);
 router.get('/owner_view/', mapping_controller.getMappingForViewOwner);
+router.get('/reviewer_view/', mapping_controller.getMappingForViewReviewer);
 router.get('/owner_filter/', mapping_controller.getMappingByOwnerFilter);
+router.get('/reviewer_filter/', mapping_controller.getMappingByReviewerFilter);
 router.delete('/reset/', mapping_controller.resetMapping);
-// router.post('/', mapping_controller.addMapping);
-// router.put('/:id', mapping_controller.updateMapping);
-// router.delete('/mapping/:id', mapping_controller.deleteMapping);
 
 
 module.exports = {

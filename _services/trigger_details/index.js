@@ -21,7 +21,8 @@ const updateResponseDate = async (email, token, mapping_id, response_date, valid
         elapsedTime(start, "updateResponseDate", "Trigger_Details");
         return update.recordset;
     } catch (error) {
-        return error.message;
+        createLogs("error", "updateResponseDate", "Trigger_Details", email, mapping_id + ", " + response_date, error.message);
+        throw error;
     }
 }
 

@@ -11,6 +11,15 @@ const getOwnerDropdown = async (req, res, next) => {
 
 }
 
+const getReviewerDropdown = async (req, res, next) => {
+    const mgr_id = req.query.mgr_id;
+    utility_service.getReviewerDropdown(req.headers.email, req.headers.token, mgr_id)
+        .then(reviewer_dropdown => reviewer_dropdown ? res.json(reviewer_dropdown) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
 module.exports = {
-    getOwnerDropdown
+    getOwnerDropdown,
+    getReviewerDropdown
 }

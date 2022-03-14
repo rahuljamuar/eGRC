@@ -27,10 +27,13 @@
 -- A.control,
 -- C.control_name,
 -- C.control_description,
--- C.control_frequency
+-- C.control_frequency,
+-- C.Performance_locations,
+-- E.control_owner_desc AS status
 -- from mapping_table A left join user_details B on A.user_id=B.user_id
 -- left join control_details C on C.control_id=A.control_id and C.control=A.control
 -- left join country_details D on D.country_id=A.country_id
+-- left join status_mapping_table E on E.id=A.status_id
 -- where
 -- A.user_id=@user_id
 -- and executing_Month=@executing_month
@@ -42,9 +45,10 @@
 -- and B.is_active='Y'
 -- and C.is_active='Y'
 -- and D.active='Y'
+-- and A.status_id != 1
+-- and A.status_id != 5
 
 -- END
--- GO
 
 
 exec ownerFilter @user_id, @executing_month, @executing_year, @country_id, @control, @status, @freezed

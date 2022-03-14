@@ -25,7 +25,8 @@ const getByMappingId = async (email, token, mapping_id, validate_token = true) =
         elapsedTime(start, "getByMappingId", "Transaction");
         return transaction.recordset;
     } catch (error) {
-        return error.message;
+        createLogs("error", "getByMappingId", "Transaction", email, mapping_id, error.message);
+        throw error;
     }
 }
 
@@ -69,14 +70,15 @@ const createTransaction = async (email, token, transaction_data) => {
         elapsedTime(start, "createTransaction", "Transaction");
         return updated_transaction;
     } catch (error) {
+        createLogs("error", "createTransaction", "Transaction", email, "", error.message);
         throw error;
     }
 }
 
-const updateTransaction = async (email, token, transaction_data) => {
+const updateTransactionByOwner = async (email, token, transaction_data) => {
     await validateToken(email, token);
     try {
-        createLogs("info", "updateTransaction", "Transaction", email, "", "");
+        createLogs("info", "updateTransactionByOwner", "Transaction", email, "", "");
         var start = new Date();
         for (var i = 0; i < transaction_data.length; i++) {
             const pool = await poolPromise;
@@ -87,20 +89,55 @@ const updateTransaction = async (email, token, transaction_data) => {
                 .input('control_owner_response_comment', sql.NVarChar, transaction_data[i].control_owner_response_comment)
                 .input('last_updated_by', sql.NVarChar, transaction_data[i].last_updated_by)
                 .input('last_updated_date', sql.SmallDateTime, transaction_data[i].last_updated_date)
-                .query(sql_queries.updateTransaction);
+                .query(sql_queries.updateTransactionByOwner);
 
         }
         await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3);
         const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id)
-        elapsedTime(start, "updateTransaction", "Transaction");
+        elapsedTime(start, "updateTransactionByOwner", "Transaction");
         return updated_transaction;
     } catch (error) {
-        return error.message;
+        createLogs("error", "updateTransactionByOwner", "Transaction", email, "", error.message);
+    }
+}
+
+const updateTransactionByReviewer = async (email, token, transaction_data) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "updateTransactionByReviewer", "Transaction", email, "", "");
+        var start = new Date();
+        var reviewer_approval = true; 
+        for (var i = 0; i < transaction_data.length; i++) {
+            if(transaction_data[i].reviewer_approval == "Rejected"){
+                reviewer_approval = false;
+            }
+            const pool = await poolPromise;
+            const sql_queries = await utils.loadSqlQueries('transaction');
+            await pool.request()
+                .input('transaction_id', sql.Numeric, transaction_data[i].transaction_id)
+                .input('reviewer_approval', sql.NVarChar, transaction_data[i].reviewer_approval)
+                .input('reviewer_comment', sql.NVarChar, transaction_data[i].reviewer_comment)
+                .input('last_updated_by', sql.NVarChar, transaction_data[i].last_updated_by)
+                .input('last_updated_date', sql.SmallDateTime, transaction_data[i].last_updated_date)
+                .query(sql_queries.updateTransactionByReviewer);
+
+        }
+        var current_status = 4;
+        if(!reviewer_approval){
+            current_status = 2;
+        }
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status);
+        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id)
+        elapsedTime(start, "updateTransactionByReviewer", "Transaction");
+        return updated_transaction;
+    } catch (error) {
+        createLogs("error", "updateTransactionByReviewer", "Transaction", email, "", error.message);
     }
 }
 
 module.exports = {
     getByMappingId,
     createTransaction,
-    updateTransaction
+    updateTransactionByOwner,
+    updateTransactionByReviewer
 }
