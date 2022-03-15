@@ -83,6 +83,13 @@ const updateTransactionByOwner = async (email, token, transaction_data) => {
         for (var i = 0; i < transaction_data.length; i++) {
             const pool = await poolPromise;
             const sql_queries = await utils.loadSqlQueries('transaction');
+            const mapping_count = await pool.request()
+                .input('mapping_id', sql.Numeric, transaction_data[0].mapping_id)
+                .query(sql_queries.checkMappingIdExist);
+            var result = mapping_count.recordset;
+            if (result[0].Total < 1) {
+                throw new Error("Mapping ID " + transaction_data[0].mapping_id + " does not exists in transaction.")
+            }
             await pool.request()
                 .input('transaction_id', sql.Numeric, transaction_data[i].transaction_id)
                 .input('response_description', sql.NVarChar, transaction_data[i].response_description)
@@ -98,6 +105,7 @@ const updateTransactionByOwner = async (email, token, transaction_data) => {
         return updated_transaction;
     } catch (error) {
         createLogs("error", "updateTransactionByOwner", "Transaction", email, "", error.message);
+        throw error;
     }
 }
 
@@ -106,13 +114,20 @@ const updateTransactionByReviewer = async (email, token, transaction_data) => {
     try {
         createLogs("info", "updateTransactionByReviewer", "Transaction", email, "", "");
         var start = new Date();
-        var reviewer_approval = true; 
+        var reviewer_approval = true;
         for (var i = 0; i < transaction_data.length; i++) {
-            if(transaction_data[i].reviewer_approval == "Rejected"){
+            if (transaction_data[i].reviewer_approval == "Rejected") {
                 reviewer_approval = false;
             }
             const pool = await poolPromise;
             const sql_queries = await utils.loadSqlQueries('transaction');
+            const mapping_count = await pool.request()
+                .input('mapping_id', sql.Numeric, transaction_data[0].mapping_id)
+                .query(sql_queries.checkMappingIdExist);
+            var result = mapping_count.recordset;
+            if (result[0].Total < 1) {
+                throw new Error("Mapping ID " + transaction_data[0].mapping_id + " does not exists in transaction.")
+            }
             await pool.request()
                 .input('transaction_id', sql.Numeric, transaction_data[i].transaction_id)
                 .input('reviewer_approval', sql.NVarChar, transaction_data[i].reviewer_approval)
@@ -123,7 +138,7 @@ const updateTransactionByReviewer = async (email, token, transaction_data) => {
 
         }
         var current_status = 4;
-        if(!reviewer_approval){
+        if (!reviewer_approval) {
             current_status = 2;
         }
         await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status);
@@ -132,6 +147,7 @@ const updateTransactionByReviewer = async (email, token, transaction_data) => {
         return updated_transaction;
     } catch (error) {
         createLogs("error", "updateTransactionByReviewer", "Transaction", email, "", error.message);
+        throw error;
     }
 }
 
