@@ -99,8 +99,8 @@ const updateTransactionByOwner = async (email, token, transaction_data) => {
                 .query(sql_queries.updateTransactionByOwner);
 
         }
-        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3);
-        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id)
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3, false);
+        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false)
         elapsedTime(start, "updateTransactionByOwner", "Transaction");
         return updated_transaction;
     } catch (error) {
@@ -141,8 +141,8 @@ const updateTransactionByReviewer = async (email, token, transaction_data) => {
         if (!reviewer_approval) {
             current_status = 2;
         }
-        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status);
-        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id)
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status, false);
+        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false)
         elapsedTime(start, "updateTransactionByReviewer", "Transaction");
         return updated_transaction;
     } catch (error) {
@@ -151,9 +151,51 @@ const updateTransactionByReviewer = async (email, token, transaction_data) => {
     }
 }
 
+const updateTransactionByAdmin = async (email, token, transaction_data) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "updateTransactionByAdmin", "Transaction", email, "", "");
+        var start = new Date();
+        var admin_approval = true;
+        for (var i = 0; i < transaction_data.length; i++) {
+            if (transaction_data[i].admin_approval == "Rejected") {
+                admin_approval = false;
+            }
+            const pool = await poolPromise;
+            const sql_queries = await utils.loadSqlQueries('transaction');
+            const mapping_count = await pool.request()
+                .input('mapping_id', sql.Numeric, transaction_data[0].mapping_id)
+                .query(sql_queries.checkMappingIdExist);
+            var result = mapping_count.recordset;
+            if (result[0].Total < 1) {
+                throw new Error("Mapping ID " + transaction_data[0].mapping_id + " does not exists in transaction.")
+            }
+            await pool.request()
+                .input('transaction_id', sql.Numeric, transaction_data[i].transaction_id)
+                .input('admin_approval', sql.NVarChar, transaction_data[i].admin_approval)
+                .input('compliant_status', sql.NVarChar, transaction_data[i].compliant_status)
+                .input('last_updated_by', sql.NVarChar, transaction_data[i].last_updated_by)
+                .input('last_updated_date', sql.SmallDateTime, transaction_data[i].last_updated_date)
+                .query(sql_queries.updateTransactionByAdmin);
+
+        }        
+        if (!admin_approval) {
+            await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 2, false);
+        }
+        
+        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false)
+        elapsedTime(start, "updateTransactionByAdmin", "Transaction");
+        return updated_transaction;
+    } catch (error) {
+        createLogs("error", "updateTransactionByAdmin", "Transaction", email, "", error.message);
+        throw error;
+    }
+}
+
 module.exports = {
     getByMappingId,
     createTransaction,
     updateTransactionByOwner,
-    updateTransactionByReviewer
+    updateTransactionByReviewer,
+    updateTransactionByAdmin
 }

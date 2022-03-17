@@ -11,6 +11,8 @@ router.get('/owner_view/', mapping_controller.getMappingForViewOwner);
 router.get('/reviewer_view/', mapping_controller.getMappingForViewReviewer);
 router.get('/owner_filter/', mapping_controller.getMappingByOwnerFilter);
 router.get('/reviewer_filter/', mapping_controller.getMappingByReviewerFilter);
+router.get('/admin_filter/', mapping_controller.getMappingByAdminFilter);
+router.put('/freeze/', mapping_controller.updateMappingFreeze);
 router.delete('/reset/', mapping_controller.resetMapping);
 
 
