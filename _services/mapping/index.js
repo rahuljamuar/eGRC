@@ -38,14 +38,14 @@ const getMappingForViewOwner = async (email, token, user_id) => {
         createLogs("info", "getMappingForViewOwner", "Mapping", email, user_id, "");
         var start = new Date();
         const execution_month = getCurrentExecutingDate("month");
-        const execution_year = getCurrentExecutingDate("year");        
+        const execution_year = getCurrentExecutingDate("year");
         const freezed = "N";
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
         const mapping_list = await pool.request()
             .input('user_id', sql.NVarChar, user_id)
             .input('execution_month', sql.NVarChar, execution_month)
-            .input('execution_year', sql.Numeric, execution_year)            
+            .input('execution_year', sql.Numeric, execution_year)
             .input('freezed', sql.NVarChar, freezed)
             .query(sql_queries.getMappingForViewOwner);
         elapsedTime(start, "getMappingForViewOwner", "Mapping");
@@ -62,14 +62,14 @@ const getMappingForViewReviewer = async (email, token, mgr_id) => {
         createLogs("info", "getMappingForViewReviewer", "Mapping", email, mgr_id, "");
         var start = new Date();
         const execution_month = getCurrentExecutingDate("month");
-        const execution_year = getCurrentExecutingDate("year");        
+        const execution_year = getCurrentExecutingDate("year");
         const freezed = "N";
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
         const mapping_list = await pool.request()
             .input('mgr_id', sql.NVarChar, mgr_id)
             .input('execution_month', sql.NVarChar, execution_month)
-            .input('execution_year', sql.Numeric, execution_year)            
+            .input('execution_year', sql.Numeric, execution_year)
             .input('freezed', sql.NVarChar, freezed)
             .query(sql_queries.getMappingForViewReviewer);
         elapsedTime(start, "getMappingForViewReviewer", "Mapping");
@@ -144,6 +144,42 @@ const getMappingByReviewerFilter = async (email, token, mgr_id, executing_month,
     }
 }
 
+
+const getMappingByAdminFilter = async (email, token, executing_month, executing_year, country_id, control, process, status) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "getMappingByAdminFilter", "Mapping", email, executing_month + ", " + executing_year + ", " + country_id + ", " + control + ", " + process + ", " + status, "");
+        var start = new Date();
+        const freezed = "N";
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        if (executing_year == "") {
+            executing_year = 0;
+        }
+        if (status == "") {
+            status = 0;
+        }
+        if (country_id == "") {
+            country_id = 0;
+        }
+
+        const mapping_list = await pool.request()
+            .input('executing_month', sql.NVarChar, executing_month)
+            .input('executing_year', sql.Numeric, executing_year)
+            .input('country_id', sql.Numeric, country_id)
+            .input('control', sql.NVarChar, control)
+            .input('process', sql.NVarChar, process)
+            .input('status', sql.Numeric, status)
+            .input('freezed', sql.NVarChar, freezed)
+            .query(sql_queries.mappingByAdminFilter);
+        elapsedTime(start, "getMappingByAdminFilter", "Mapping");
+        return mapping_list.recordset;
+    } catch (error) {
+        createLogs("error", "getMappingByAdminFilter", "Mapping", email, email, executing_month + ", " + executing_year + ", " + country_id + ", " + control + ", " + process + ", " + status, error.message);
+        throw error;
+    }
+}
+
 const updateMappingStatus = async (email, token, mapping_id, status, validate_token = true) => {
     if (validate_token) {
         await validateToken(email, token);
@@ -156,11 +192,33 @@ const updateMappingStatus = async (email, token, mapping_id, status, validate_to
         const update = await pool.request()
             .input('mapping_id', sql.Numeric, mapping_id)
             .input('status', sql.Numeric, status)
-            .query(sql_queries.updateMappingStatus);
+            .query(sql_queries.updateMappingStatus);        
         elapsedTime(start, "updateMappingStatus", "Mapping");
         return update.recordset;
     } catch (error) {
         createLogs("error", "updateMappingStatus", "Mapping", email, mapping_id + ", " + status, error.message);
+        throw error;
+    }
+}
+
+const updateMappingFreeze = async (email, token, mapping_id, freeze, validate_token = true) => {
+    if (validate_token) {
+        await validateToken(email, token);
+    }
+    try {
+        createLogs("info", "updateMappingFreeze", "Mapping", email, mapping_id + ", " + freeze, "");
+        var start = new Date();
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        const update = await pool.request()
+            .input('mapping_id', sql.Numeric, mapping_id)
+            .input('freeze', sql.NVarChar, freeze)
+            .query(sql_queries.updateMappingFreeze);
+        const updated_transaction = await getMappingByMappingId(email, token, mapping_id, false)
+        elapsedTime(start, "updateMappingFreeze", "Mapping");
+        return updated_transaction;
+    } catch (error) {
+        createLogs("error", "updateMappingFreeze", "Mapping", email, mapping_id + ", " + freeze, error.message);
         throw error;
     }
 }
@@ -209,6 +267,28 @@ const resetMapping = async (email, token) => {
     }
 }
 
+const getMappingByMappingId = async (email, token, mapping_id, validate_token = true) => {
+    if (validate_token) {
+        await validateToken(email, token);
+    }
+
+    try {
+        createLogs("info", "getMappingByMappingId", "Mapping", email, mapping_id, "");
+        var start = new Date();
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        const transaction = await pool.request()
+            .input('mapping_id', sql.Numeric, mapping_id)
+            .query(sql_queries.mappingByMappingId);
+        elapsedTime(start, "getMappingByMappingId", "Mapping");
+        const result = transaction.recordset;
+        return result[0];
+    } catch (error) {
+        createLogs("error", "getMappingByMappingId", "Mapping", email, mapping_id, error.message);
+        throw error;
+    }
+}
+
 function getCurrentExecutingDate(param) {
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     var today = new Date();
@@ -236,6 +316,9 @@ module.exports = {
     getMappingByOwnerFilter,
     getMappingForViewReviewer,
     getMappingByReviewerFilter,
+    getMappingByAdminFilter,
+    getMappingByMappingId,
     resetMapping,
-    updateMappingStatus
+    updateMappingStatus,
+    updateMappingFreeze
 }

@@ -9,6 +9,7 @@ router.get('/mapping_id/', transaction_controller.getByMappingId);
 router.post('/', transaction_controller.createTransaction);
 router.put('/owner/', transaction_controller.updateTransactionByOwner);
 router.put('/reviewer/', transaction_controller.updateTransactionByReviewer);
+router.put('/admin/', transaction_controller.updateTransactionByAdmin);
 
 
 module.exports = {

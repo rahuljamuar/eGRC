@@ -1,4 +1,4 @@
--- Call stored procedure ownerFilter
+-- Call stored procedure reviewerFilter
 
 -- CREATE PROCEDURE reviewerFilter
 -- @mgr_id NVARCHAR(MAX),

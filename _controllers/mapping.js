@@ -63,8 +63,33 @@ const getMappingForViewReviewer = async (req, res, next) => {
         .catch(err => next(err));
 }
 
+
+
+const getMappingByAdminFilter = async (req, res, next) => {
+
+
+    const month = req.query.month;
+    const year = req.query.year;
+    const status = req.query.status;
+    const country_id = req.query.country_id;
+    const control = req.query.control;
+    const process = req.query.process;
+    mapping_service.getMappingByAdminFilter(req.headers.email, req.headers.token, month, year, country_id, control, process, status)
+        .then(mapping => mapping ? res.json(mapping) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
+const updateMappingFreeze = async (req, res, next) => {
+    const mapping_id = req.query.mapping_id;
+    const freeze = req.query.freeze;
+    mapping_service.updateMappingFreeze(req.headers.email, req.headers.token, mapping_id, freeze)
+        .then(mapping => mapping ? res.json(mapping) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
 const resetMapping = async (req, res, next) => {
-    
+
     mapping_service.resetMapping(req.headers.email, req.headers.token)
         .then(mapping => mapping ? res.json(mapping) : res.sendStatus(404))
         .catch(err => next(err));
@@ -77,5 +102,7 @@ module.exports = {
     getMappingByOwnerFilter,
     getMappingForViewReviewer,
     getMappingByReviewerFilter,
+    getMappingByAdminFilter,
+    updateMappingFreeze,
     resetMapping
 }
