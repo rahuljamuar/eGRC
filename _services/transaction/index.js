@@ -178,12 +178,14 @@ const updateTransactionByAdmin = async (email, token, transaction_data) => {
                 .input('last_updated_date', sql.SmallDateTime, transaction_data[i].last_updated_date)
                 .query(sql_queries.updateTransactionByAdmin);
 
-        }        
-        if (!admin_approval) {
-            await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 2, false);
         }
-        
-        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false)
+        var current_status = 4;
+        if (!admin_approval) {
+            current_status = 2;
+        }        
+       
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status, false);
+        const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false);
         elapsedTime(start, "updateTransactionByAdmin", "Transaction");
         return updated_transaction;
     } catch (error) {
