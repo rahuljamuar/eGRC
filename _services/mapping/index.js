@@ -192,7 +192,7 @@ const updateMappingStatus = async (email, token, mapping_id, status, validate_to
         const update = await pool.request()
             .input('mapping_id', sql.Numeric, mapping_id)
             .input('status', sql.Numeric, status)
-            .query(sql_queries.updateMappingStatus);        
+            .query(sql_queries.updateMappingStatus);
         elapsedTime(start, "updateMappingStatus", "Mapping");
         return update.recordset;
     } catch (error) {
@@ -219,6 +219,32 @@ const updateMappingFreeze = async (email, token, mapping_id, freeze, validate_to
         return updated_transaction;
     } catch (error) {
         createLogs("error", "updateMappingFreeze", "Mapping", email, mapping_id + ", " + freeze, error.message);
+        throw error;
+    }
+}
+
+const updateMultipleMappingFreeze = async (email, token, mapping_list, freeze, validate_token = true) => {
+    if (validate_token) {
+        await validateToken(email, token);
+    }
+    try {
+        createLogs("info", "updateMultipleMappingFreeze", "Mapping", email, mapping_list + ", " + freeze, "");
+        var start = new Date();
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        var updated_transactions = [];
+        for (var i = 0; i < mapping_list.length; i++) {
+            await pool.request()
+                .input('mapping_id', sql.Numeric, mapping_list[i])
+                .input('freeze', sql.NVarChar, freeze)
+                .query(sql_queries.updateMappingFreeze);
+            const updated_transaction = await getMappingByMappingId(email, token, mapping_list[i], false);
+            updated_transactions.push(updated_transaction);
+        }
+        elapsedTime(start, "updateMultipleMappingFreeze", "Mapping");
+        return updated_transactions;
+    } catch (error) {
+        createLogs("error", "updateMultipleMappingFreeze", "Mapping", email, mapping_list + ", " + freeze, error.message);
         throw error;
     }
 }
@@ -320,5 +346,6 @@ module.exports = {
     getMappingByMappingId,
     resetMapping,
     updateMappingStatus,
-    updateMappingFreeze
+    updateMappingFreeze,
+    updateMultipleMappingFreeze
 }
