@@ -88,6 +88,14 @@ const updateMappingFreeze = async (req, res, next) => {
         .catch(err => next(err));
 }
 
+const updateMultipleMappingFreeze = async (req, res, next) => {
+    const mapping_list = req.body.mapping_list;
+    const freeze = req.query.freeze;
+    mapping_service.updateMultipleMappingFreeze(req.headers.email, req.headers.token, mapping_list, freeze)
+        .then(mapping => mapping ? res.json(mapping) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
 const resetMapping = async (req, res, next) => {
 
     mapping_service.resetMapping(req.headers.email, req.headers.token)
@@ -104,5 +112,6 @@ module.exports = {
     getMappingByReviewerFilter,
     getMappingByAdminFilter,
     updateMappingFreeze,
+    updateMultipleMappingFreeze,
     resetMapping
 }

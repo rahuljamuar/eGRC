@@ -13,6 +13,7 @@ router.get('/owner_filter/', mapping_controller.getMappingByOwnerFilter);
 router.get('/reviewer_filter/', mapping_controller.getMappingByReviewerFilter);
 router.get('/admin_filter/', mapping_controller.getMappingByAdminFilter);
 router.put('/freeze/', mapping_controller.updateMappingFreeze);
+router.put('/multiple_freeze/', mapping_controller.updateMultipleMappingFreeze);
 router.delete('/reset/', mapping_controller.resetMapping);
 
 
