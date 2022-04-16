@@ -20,6 +20,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
+          
+      - name : "remove .env....."     
+        command : rm -f .env 
+      
+      - name : "move qa.env to .env"     
+        command : mv qa.env  .env
 
       - name: npm install, build, and test
         run: |
