@@ -14,7 +14,7 @@ INSERT INTO [dbo].[transaction_details]
         [executing_month],
         [executing_year],
         [last_updated_by],
-        [last_updated_date],
+        [control_owner_comment_date],
         [is_deleted]
     )
 VALUES 

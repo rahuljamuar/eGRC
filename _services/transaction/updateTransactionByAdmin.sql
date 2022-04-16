@@ -3,6 +3,7 @@ UPDATE [dbo].[transaction_details] SET
 [final_approval] = @admin_approval,
 [compliant_status] = @compliant_status,
 [last_updated_by] = @last_updated_by,
-[last_updated_date] = @last_updated_date
+[master_comment_date] = @last_updated_date,
+[master_response_comment] = @admin_comment
 WHERE
 [transaction_id] = @transaction_id

@@ -174,6 +174,7 @@ const updateTransactionByAdmin = async (email, token, transaction_data) => {
                 .input('transaction_id', sql.Numeric, transaction_data[i].transaction_id)
                 .input('admin_approval', sql.NVarChar, transaction_data[i].admin_approval)
                 .input('compliant_status', sql.NVarChar, transaction_data[i].compliant_status)
+                .input('admin_comment', sql.NVarChar, transaction_data[i].admin_comment)
                 .input('last_updated_by', sql.NVarChar, transaction_data[i].last_updated_by)
                 .input('last_updated_date', sql.SmallDateTime, transaction_data[i].last_updated_date)
                 .query(sql_queries.updateTransactionByAdmin);
