@@ -21,10 +21,12 @@ jobs:
         with:
           node-version: '14.x'
           
-      - name : "remove .env....."     
+      - name : "remove .env....."  
+        uses: actions/checkout@v2
         command : rm -f .env 
       
-      - name : "move qa.env to .env"     
+      - name : "move qa.env to .env"  
+        uses: actions/checkout@v2
         command : mv qa.env  .env
 
       - name: npm install, build, and test
