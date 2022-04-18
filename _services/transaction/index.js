@@ -64,7 +64,7 @@ const createTransaction = async (email, token, transaction_data) => {
                 .query(sql_queries.createTransaction);
 
         }
-        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3);
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3, transaction_data[0].last_updated_date, transaction_data[0].last_updated_by, false);
         await trigger_details.updateResponseDate(email, token, transaction_data[0].mapping_id, transaction_data[0].response_date, false);
         const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false);
         elapsedTime(start, "createTransaction", "Transaction");
@@ -99,7 +99,7 @@ const updateTransactionByOwner = async (email, token, transaction_data) => {
                 .query(sql_queries.updateTransactionByOwner);
 
         }
-        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3, false);
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3, transaction_data[0].last_updated_date, transaction_data[0].last_updated_by, false);
         const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false)
         elapsedTime(start, "updateTransactionByOwner", "Transaction");
         return updated_transaction;
@@ -141,7 +141,7 @@ const updateTransactionByReviewer = async (email, token, transaction_data) => {
         if (!reviewer_approval) {
             current_status = 2;
         }
-        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status, false);
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status, transaction_data[0].last_updated_date, transaction_data[0].last_updated_by, false);
         const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false)
         elapsedTime(start, "updateTransactionByReviewer", "Transaction");
         return updated_transaction;
@@ -185,7 +185,7 @@ const updateTransactionByAdmin = async (email, token, transaction_data) => {
             current_status = 2;
         }        
        
-        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status, false);
+        await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, current_status, transaction_data[0].last_updated_date, transaction_data[0].last_updated_by, false);
         const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false);
         elapsedTime(start, "updateTransactionByAdmin", "Transaction");
         return updated_transaction;

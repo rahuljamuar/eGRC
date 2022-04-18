@@ -180,7 +180,7 @@ const getMappingByAdminFilter = async (email, token, executing_month, executing_
     }
 }
 
-const updateMappingStatus = async (email, token, mapping_id, status, validate_token = true) => {
+const updateMappingStatus = async (email, token, mapping_id, status, last_updated_date, last_updated_by, validate_token = true) => {
     if (validate_token) {
         await validateToken(email, token);
     }
@@ -192,6 +192,8 @@ const updateMappingStatus = async (email, token, mapping_id, status, validate_to
         const update = await pool.request()
             .input('mapping_id', sql.Numeric, mapping_id)
             .input('status', sql.Numeric, status)
+            .input('last_updated_date', sql.SmallDateTime, last_updated_date)
+            .input('last_updated_by', sql.NVarChar, last_updated_by)
             .query(sql_queries.updateMappingStatus);
         elapsedTime(start, "updateMappingStatus", "Mapping");
         return update.recordset;
