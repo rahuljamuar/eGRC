@@ -32,6 +32,30 @@ const getMappingByUserCurrentMonth = async (email, token, user_id) => {
     }
 }
 
+const getMappingByUserGivenMonth = async (email, token, user_id, month, year) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "getMappingByUserGivenMonth", "Mapping", email, user_id + ", " + month + ", " + year, "");
+        var start = new Date();
+        const status = 1;
+        const freezed = "N";
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        const mapping_list = await pool.request()
+            .input('user_id', sql.NVarChar, user_id)
+            .input('execution_month', sql.NVarChar, month)
+            .input('execution_year', sql.Numeric, year)
+            .input('status', sql.Numeric, status)
+            .input('freezed', sql.NVarChar, freezed)
+            .query(sql_queries.mappingByUserGivenMonth);
+        elapsedTime(start, "getMappingByUserGivenMonth", "Mapping");
+        return mapping_list.recordset;
+    } catch (error) {
+        createLogs("error", "getMappingByUserGivenMonth", "Mapping", email, user_id + ", " + month + ", " + year, error.message);
+        throw error;
+    }
+}
+
 const getMappingForViewOwner = async (email, token, user_id) => {
     await validateToken(email, token);
     try {
@@ -247,32 +271,6 @@ const updateMultipleMappingFreeze = async (email, token, mapping_list, freeze, v
         return updated_transactions;
     } catch (error) {
         createLogs("error", "updateMultipleMappingFreeze", "Mapping", email, mapping_list + ", " + freeze, error.message);
-        throw error;
-    }
-}
-
-
-
-const getMappingByUserGivenMonth = async (email, token, user_id, month, year) => {
-    await validateToken(email, token);
-    try {
-        createLogs("info", "getMappingByUserGivenMonth", "Mapping", email, user_id + ", " + month + ", " + year, "");
-        var start = new Date();
-        const status = 1;
-        const freezed = "N";
-        const pool = await poolPromise;
-        const sql_queries = await utils.loadSqlQueries('mapping');
-        const mapping_list = await pool.request()
-            .input('user_id', sql.NVarChar, user_id)
-            .input('execution_month', sql.NVarChar, month)
-            .input('execution_year', sql.Numeric, year)
-            .input('status', sql.Numeric, status)
-            .input('freezed', sql.NVarChar, freezed)
-            .query(sql_queries.mappingByUserGivenMonth);
-        elapsedTime(start, "getMappingByUserGivenMonth", "Mapping");
-        return mapping_list.recordset;
-    } catch (error) {
-        createLogs("error", "getMappingByUserGivenMonth", "Mapping", email, user_id + ", " + month + ", " + year, error.message);
         throw error;
     }
 }
