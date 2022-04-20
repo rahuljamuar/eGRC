@@ -4,6 +4,7 @@ const { poolPromise, sql } = require('../../_helpers/db')
 const createLogs = require('../../_helpers/createLogs');
 const elapsedTime = require('../../_helpers/elapsedTime');
 const validateToken = require('../../_helpers/validateToken');
+const file = require('../../_helpers/file');
 
 
 const getMappingByUserCurrentMonth = async (email, token, user_id) => {
@@ -285,6 +286,7 @@ const resetMapping = async (email, token) => {
         const sql_queries = await utils.loadSqlQueries('mapping');
         await pool.request()
             .query(sql_queries.reset);
+
         elapsedTime(start, "resetMapping", "Mapping");
         return "Reset Successful";
     } catch (error) {

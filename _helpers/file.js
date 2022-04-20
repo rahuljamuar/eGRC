@@ -71,30 +71,29 @@ async function listContainers() {
 
 async function createContainer(container_name) {
 
-    let requestId = ''
     try {
+        createLogs("info", "createContainer", "FileHelper", "", "", "");
+        var start = new Date();
         const containerClient = blobServiceClient.getContainerClient(container_name);
-        const createContainerResponse = await containerClient.create();
-        console.log(`Create container ${container_name} successfully`, createContainerResponse.requestId);
-        requestId = createContainerResponse.requestId;
-    } catch (err) {
-        console.error("err:::", err);
+        await containerClient.create();
+        elapsedTime(start, "createContainer", "FileHelper");
+    } catch (error) {
+        createLogs("error", "createContainer", "FileHelper", "", "", error.message);
+        throw error;
     }
-    return requestId;
 }
 
 async function deleteContainer(container_name) {
-
-    let requestId = ''
     try {
+        createLogs("info", "deleteContainer", "FileHelper", "", "", "");
+        var start = new Date();
         const containerClient = blobServiceClient.getContainerClient(container_name);
-        const createContainerResponse = await containerClient.deleteIfExists();
-        console.log(`Delete container ${container_name} successfully`, createContainerResponse.requestId);
-        requestId = createContainerResponse.requestId;
-    } catch (err) {
-        console.error("err:::", err);
-    }
-    return requestId;
+        await containerClient.deleteIfExists();
+        elapsedTime(start, "deleteContainer", "FileHelper");
+    } catch (error) {
+        createLogs("error", "deleteContainer", "FileHelper", "", "", error.message);
+        throw error;
+    }    
 }
 
 async function listDirectories(container_name) {
@@ -144,11 +143,13 @@ async function uploadFile(file_param, file_path) {
         file_object.mime_type = file_param.mimetype;
         const containerClient = blobServiceClient.getContainerClient(container_name);
         const blockBlobClient = containerClient.getBlockBlobClient(file_path + file_object.file_name);
+        file_object.file_exist = await blockBlobClient.exists();
         await blockBlobClient.uploadData(file_param.data)
         elapsedTime(start, "uploadFile", "FileHelper");
         return file_object;
     } catch (error) {
         createLogs("error", "uploadFile", "FileHelper", "", "", error.message);
+        throw error;
     }
 
 }
@@ -176,6 +177,7 @@ async function downloadFile(file_name, file_path, mime_type) {
         return file;
     } catch (error) {
         createLogs("error", "downloadFile", "FileHelper", "", "", error.message);
+        throw error;
     }
 }
 
@@ -188,6 +190,7 @@ async function deleteFile(file_name, file_path) {
         const blobClient = containerClient.getBlobClient(file_path + file_name);
         await blobClient.deleteIfExists();
         elapsedTime(start, "deleteFile", "FileHelper");
+        throw error;
 
     } catch (error) {
         createLogs("error", "deleteFile", "FileHelper", "", "", error.message);

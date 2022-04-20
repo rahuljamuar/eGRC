@@ -14,14 +14,32 @@ const downloadFile = async (req, res, next) => {
         .catch(err => next(err));
 }
 
-const listFiles = async (req, res, next) => {
-    file_service.listFiles(req.headers.email, req.headers.token)
+const listAllFiles = async (req, res, next) => {
+    file_service.listAllFiles(req.headers.email, req.headers.token)
+        .then(files => files ? res.json(files) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+const getFilesByMappingID = async (req, res, next) => {
+    file_service.getFilesByMappingID(req.headers.email, req.headers.token, req.query.mapping_id)
         .then(files => files ? res.json(files) : res.sendStatus(404))
         .catch(err => next(err));
 }
 
 const deleteFile = async (req, res, next) => {
     file_service.deleteFile(req.headers.email, req.headers.token, req.query.link_id)
+        .then(files => files ? res.json(files) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+const createContainer = async (req, res, next) => {
+    file_service.createContainer(req.headers.email, req.headers.token)
+        .then(files => files ? res.json(files) : res.sendStatus(404))
+        .catch(err => next(err));
+}
+
+const deleteContainer = async (req, res, next) => {
+    file_service.deleteContainer(req.headers.email, req.headers.token)
         .then(files => files ? res.json(files) : res.sendStatus(404))
         .catch(err => next(err));
 }
@@ -33,5 +51,8 @@ module.exports = {
     createFile,
     downloadFile,
     deleteFile,
-    listFiles
+    listAllFiles,
+    getFilesByMappingID,
+    createContainer,
+    deleteContainer
 }
