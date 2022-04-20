@@ -15,6 +15,7 @@ const utility_routes = require('./_routes/utility');
 const user_routes = require('./_routes/user_details');
 const reviewer_routes = require('./_routes/reviewer_details');
 const file_routes = require('./_routes/file');
+const role_routes = require('./_routes/role');
 
 
 
@@ -41,6 +42,7 @@ app.use('/api/utility', utility_routes.routes);
 app.use('/api/user', user_routes.routes);
 app.use('/api/reviewer', reviewer_routes.routes);
 app.use('/api/file', file_routes.routes);
+app.use('/api/role', role_routes.routes);
 
 
 // global error handler
