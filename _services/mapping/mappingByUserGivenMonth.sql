@@ -37,6 +37,7 @@ and executing_year=@execution_year
 and A.user_id=@user_id
 and A.status_id=@status
 and A.freezed=@freezed
+and A.is_active='Y'
 and B.is_active='Y'
 and C.is_active='Y'
 and D.active='Y'

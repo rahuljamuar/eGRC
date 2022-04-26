@@ -38,6 +38,7 @@ and A.user_id=@user_id
 and A.status_id != 1
 and A.status_id != 5
 and A.freezed=@freezed
+and A.is_active='Y'
 and B.is_active='Y'
 and C.is_active='Y'
 and D.active='Y'
