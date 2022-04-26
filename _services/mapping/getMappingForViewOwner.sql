@@ -42,3 +42,4 @@ and A.is_active='Y'
 and B.is_active='Y'
 and C.is_active='Y'
 and D.active='Y'
+ORDER BY A.status_id ASC
