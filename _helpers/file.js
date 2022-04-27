@@ -138,9 +138,18 @@ async function uploadFile(file_param, file_path) {
         var start = new Date();
         const container_name = process.env.CONTAINER;
         var file_object = {};
-        // console.log(file_param.mimetype)
+        var size = file_param.size;
+        if(size >= 1048576){
+            file_object.file_size =  Math.round(size / (1024 * 1024)) + " MB";
+        } else if(size > 1024 && size < 1048576){
+            file_object.file_size =  Math.round(size / 1024) + " KB";
+        }
+        else{
+            file_object.file_size =  size + " Bytes";
+        }
         file_object.file_name = file_param.name;
         file_object.mime_type = file_param.mimetype;
+        
         const containerClient = blobServiceClient.getContainerClient(container_name);
         const blockBlobClient = containerClient.getBlockBlobClient(file_path + file_object.file_name);
         file_object.file_exist = await blockBlobClient.exists();

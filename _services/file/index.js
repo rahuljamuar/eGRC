@@ -55,19 +55,21 @@ const createFile = async (email, token, files, file_param, validate_token = true
         if (files.file_name.length > 0) {
             for (var i = 0; i < files.file_name.length; i++) {
                 const file_upload = await file.uploadFile(files.file_name[i], file_param.file_path)
-                // console.log(file_upload)
+                
                 if (file_upload.file_exist) {
                     await pool.request()
                         .input('mapping_id', sql.Numeric, file_param.mapping_id)
-                        .input('file_name', sql.NVarChar, file_upload.file_name)
+                        .input('file_name', sql.NVarChar, file_upload.file_name)                        
                         .input('file_path', sql.NVarChar, file_param.file_path)
                         .input('updated_on', sql.SmallDateTime, file_param.uploaded_on)
                         .input('updated_by', sql.NVarChar, file_param.uploaded_by)
                         .query(sql_queries.updateFile);
                 } else {
+                    
                     await pool.request()
                         .input('mapping_id', sql.Numeric, file_param.mapping_id)
                         .input('file_name', sql.NVarChar, file_upload.file_name)
+                        .input('file_size', sql.NVarChar, file_upload.file_size)
                         .input('file_path', sql.NVarChar, file_param.file_path)
                         .input('mime_type', sql.NVarChar, file_upload.mime_type)
                         .input('uploaded_on', sql.SmallDateTime, file_param.uploaded_on)
@@ -79,11 +81,11 @@ const createFile = async (email, token, files, file_param, validate_token = true
         }
         else {
             const file_upload = await file.uploadFile(files.file_name, file_param.file_path)
-            // console.log(file_upload)
+            
             if (file_upload.file_exist) {
                 await pool.request()
                     .input('mapping_id', sql.Numeric, file_param.mapping_id)
-                    .input('file_name', sql.NVarChar, file_upload.file_name)
+                    .input('file_name', sql.NVarChar, file_upload.file_name)                    
                     .input('file_path', sql.NVarChar, file_param.file_path)
                     .input('updated_on', sql.SmallDateTime, file_param.uploaded_on)
                     .input('updated_by', sql.NVarChar, file_param.uploaded_by)
@@ -92,6 +94,7 @@ const createFile = async (email, token, files, file_param, validate_token = true
                 await pool.request()
                     .input('mapping_id', sql.Numeric, file_param.mapping_id)
                     .input('file_name', sql.NVarChar, file_upload.file_name)
+                    .input('file_size', sql.NVarChar, file_upload.file_size)
                     .input('file_path', sql.NVarChar, file_param.file_path)
                     .input('mime_type', sql.NVarChar, file_upload.mime_type)
                     .input('uploaded_on', sql.SmallDateTime, file_param.uploaded_on)

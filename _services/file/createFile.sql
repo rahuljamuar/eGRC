@@ -2,6 +2,7 @@ INSERT INTO [dbo].[files]
     (
         [mapping_id],
         [file_name],
+        [file_size],
         [file_path],
         [mime_type],
         [uploaded_on],
@@ -11,6 +12,7 @@ VALUES
     (
         @mapping_id,
         @file_name,
+        @file_size,
         @file_path,
         @mime_type,
         @uploaded_on,
