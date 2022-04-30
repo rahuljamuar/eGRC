@@ -1,8 +1,10 @@
 'use strict';
 
 const file_service = require('../_services/file');
+const createLogs = require('../_helpers/createLogs');
 
-const createFile = async (req, res, next) => {   
+const createFile = async (req, res, next) => {
+    createLogs("info", "createFileController", "File", req.files, req.body, "");
     file_service.createFile(req.headers.email, req.headers.token, req.files, req.body)
         .then(files => files ? res.json(files) : res.sendStatus(404))
         .catch(err => next(err));
