@@ -41,6 +41,8 @@ speed-measure-plugin.json
 npm-debug.log
 yarn-error.log
 testem.log
+info.log
+error.log
 # *.log
 /typings
 
@@ -48,4 +50,3 @@ testem.log
 .DS_Store
 Thumbs.db
 # .log
-*.log
