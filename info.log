@@ -1,0 +1,57 @@
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-08T04:52:17.037Z"}
+{"code":"ELOGIN","level":"error","message":"Database Connection Failed! Bad Config:  Cannot open server 'egrc-v2' requested by the login. Client with IP address '49.207.221.69' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.","name":"ConnectionError","originalError":{"code":"ELOGIN","message":"Cannot open server 'egrc-v2' requested by the login. Client with IP address '49.207.221.69' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect."},"stack":"ConnectionError: Cannot open server 'egrc-v2' requested by the login. Client with IP address '49.207.221.69' is not allowed to access the server.  To enable access, use the Windows Azure Management Portal or run sp_set_firewall_rule on the master database to create a firewall rule for this IP address or address range.  It may take up to five minutes for this change to take effect.\n    at D:\\eGRC\\node_modules\\mssql\\lib\\tedious\\connection-pool.js:71:17\n    at Connection.onConnect (D:\\eGRC\\node_modules\\mssql\\node_modules\\tedious\\lib\\connection.js:1043:9)\n    at Object.onceWrapper (events.js:520:26)\n    at Connection.emit (events.js:400:28)\n    at Connection.emit (D:\\eGRC\\node_modules\\mssql\\node_modules\\tedious\\lib\\connection.js:1071:18)\n    at Parser.<anonymous> (D:\\eGRC\\node_modules\\mssql\\node_modules\\tedious\\lib\\connection.js:2832:20)\n    at Object.onceWrapper (events.js:519:28)\n    at Parser.emit (events.js:400:28)\n    at Readable.<anonymous> (D:\\eGRC\\node_modules\\mssql\\node_modules\\tedious\\lib\\token\\token-stream-parser.js:34:12)\n    at Readable.emit (events.js:400:28)","timestamp":"2022-05-08T04:52:18.385Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-08T04:52:58.285Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-05-08T04:52:59.725Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/current/?user_id=U_2"},"timestamp":"2022-05-08T04:53:25.213Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:53:25.217Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":1,"module":"Token"},"timestamp":"2022-05-08T04:53:25.219Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_2"},"timestamp":"2022-05-08T04:53:25.222Z"}
+{"level":"error","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","error_message":"Must declare the scalar variable \"@executing_month\".","module":"Mapping","parameter":"U_2"},"timestamp":"2022-05-08T04:53:27.231Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-08T04:53:59.759Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-05-08T04:54:01.182Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/current/?user_id=U_2"},"timestamp":"2022-05-08T04:54:03.606Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:54:03.609Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":1,"module":"Token"},"timestamp":"2022-05-08T04:54:03.610Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_2"},"timestamp":"2022-05-08T04:54:03.613Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"execution_time":1859,"module":"Mapping"},"timestamp":"2022-05-08T04:54:05.473Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/current/?user_id=U_4"},"timestamp":"2022-05-08T04:54:12.096Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:54:12.098Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T04:54:12.099Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-08T04:54:12.100Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"execution_time":441,"module":"Mapping"},"timestamp":"2022-05-08T04:54:12.541Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/given/?year=2022&user_id=U_4&month=Mar"},"timestamp":"2022-05-08T04:54:25.542Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:54:25.544Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T04:54:25.545Z"}
+{"level":"info","message":"getMappingByUserGivenMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4, Mar, 2022"},"timestamp":"2022-05-08T04:54:25.547Z"}
+{"level":"info","message":"getMappingByUserGivenMonth","meta":{"execution_time":462,"module":"Mapping"},"timestamp":"2022-05-08T04:54:26.010Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"DELETE","url":"/api/mapping/reset/"},"timestamp":"2022-05-08T04:54:45.597Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:54:45.600Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T04:54:45.601Z"}
+{"level":"info","message":"resetMapping","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":""},"timestamp":"2022-05-08T04:54:45.602Z"}
+{"level":"info","message":"resetMapping","meta":{"execution_time":507,"module":"Mapping"},"timestamp":"2022-05-08T04:54:46.111Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"DELETE","url":"/api/file/container/"},"timestamp":"2022-05-08T04:54:54.414Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:54:54.416Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T04:54:54.417Z"}
+{"level":"info","message":"deleteContainer","meta":{"email":"Sajith.K@unilever.com","module":"File","parameter":""},"timestamp":"2022-05-08T04:54:54.418Z"}
+{"level":"info","message":"deleteContainer","meta":{"email":"","module":"FileHelper","parameter":""},"timestamp":"2022-05-08T04:54:54.420Z"}
+{"level":"info","message":"deleteContainer","meta":{"execution_time":1243,"module":"FileHelper"},"timestamp":"2022-05-08T04:54:55.664Z"}
+{"level":"info","message":"deleteContainer","meta":{"execution_time":1246,"module":"File"},"timestamp":"2022-05-08T04:54:55.666Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/current/?user_id=U_4"},"timestamp":"2022-05-08T04:54:59.871Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:54:59.876Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T04:54:59.877Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-08T04:54:59.878Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"execution_time":447,"module":"Mapping"},"timestamp":"2022-05-08T04:55:00.326Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-08T04:55:55.911Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-05-08T04:55:57.475Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/current/?user_id=U_4"},"timestamp":"2022-05-08T04:56:01.835Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T04:56:01.840Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T04:56:01.842Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-08T04:56:01.844Z"}
+{"level":"error","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","error_message":"An object or column name is missing or empty. For SELECT INTO statements, verify each column has a name. For other statements, look for empty alias names. Aliases defined as \"\" or [] are not allowed. Change the alias to a valid name.","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-08T04:56:03.738Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-08T05:05:39.234Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-05-08T05:05:40.718Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/current/?user_id=U_4"},"timestamp":"2022-05-08T05:06:02.827Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-08T05:06:02.829Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T05:06:02.831Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-08T05:06:02.833Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"execution_time":2029,"module":"Mapping"},"timestamp":"2022-05-08T05:06:04.864Z"}
