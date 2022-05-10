@@ -55,3 +55,10 @@
 {"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-08T05:06:02.831Z"}
 {"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-08T05:06:02.833Z"}
 {"level":"info","message":"getMappingByUserCurrentMonth","meta":{"execution_time":2029,"module":"Mapping"},"timestamp":"2022-05-08T05:06:04.864Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-10T16:42:13.271Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-05-10T16:42:14.855Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"GET","url":"/api/mapping/current/?user_id=U_4"},"timestamp":"2022-05-10T16:42:38.803Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-10T16:42:38.806Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":1,"module":"Token"},"timestamp":"2022-05-10T16:42:38.807Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-10T16:42:38.810Z"}
+{"level":"info","message":"getMappingByUserCurrentMonth","meta":{"execution_time":2456,"module":"Mapping"},"timestamp":"2022-05-10T16:42:41.267Z"}
