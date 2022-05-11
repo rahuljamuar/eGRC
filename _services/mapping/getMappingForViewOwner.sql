@@ -17,6 +17,9 @@ B.control_owner,
 B.control_owner_email,
 A.country_id, 
 D.country_name,
+D.cluster,
+D.mco,
+D.bu,
 A.control_id, 
 A.control,
 A.Indentify_Homo,
@@ -27,6 +30,7 @@ C.control_name,
 C.control_description,
 C.control_frequency,
 C.Performance_locations,
+C.process,
 E.control_owner_desc AS status
 from mapping_table A left join user_details B on A.user_id=B.user_id
 left join control_details C on C.control_id=A.control_id and C.control=A.control
