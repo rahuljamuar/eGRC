@@ -216,7 +216,7 @@ const updateMappingStatus = async (email, token, mapping_id, status, last_update
         const sql_queries = await utils.loadSqlQueries('mapping');
         const update = await pool.request()
             .input('mapping_id', sql.Numeric, mapping_id)
-            .input('status', sql.Numeric, status)
+            .input('status', sql.Numeric, status)            
             .input('last_updated_date', sql.SmallDateTime, last_updated_date)
             .input('last_updated_by', sql.NVarChar, last_updated_by)
             .query(sql_queries.updateMappingStatus);
@@ -227,6 +227,28 @@ const updateMappingStatus = async (email, token, mapping_id, status, last_update
         throw error;
     }
 }
+
+const updateMappingHomogeneousStatus = async (email, token, mapping_id, submitted_homo, validate_token = true) => {
+    if (validate_token) {
+        await validateToken(email, token);
+    }
+    try {
+        createLogs("info", "updateMappingHomogeneousStatus", "Mapping", email, mapping_id + ", " + submitted_homo, "");
+        var start = new Date();
+        const pool = await poolPromise;
+        const sql_queries = await utils.loadSqlQueries('mapping');
+        const update = await pool.request()
+            .input('mapping_id', sql.Numeric, mapping_id)           
+            .input('submitted_homo', sql.Bit, submitted_homo)           
+            .query(sql_queries.updateMappingHomogeneousStatus);
+        elapsedTime(start, "updateMappingHomogeneousStatus", "Mapping");
+        return update.recordset;
+    } catch (error) {
+        createLogs("error", "updateMappingHomogeneousStatus", "Mapping", email, mapping_id + ", " + submitted_homo, error.message);
+        throw error;
+    }
+}
+
 
 const updateMappingFreeze = async (email, token, mapping_id, freeze, validate_token = true) => {
     if (validate_token) {
@@ -348,6 +370,7 @@ module.exports = {
     getMappingByMappingId,
     resetMapping,
     updateMappingStatus,
+    updateMappingHomogeneousStatus,
     updateMappingFreeze,
     updateMultipleMappingFreeze
 }

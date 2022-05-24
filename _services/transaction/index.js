@@ -64,6 +64,7 @@ const createTransaction = async (email, token, transaction_data) => {
                 .query(sql_queries.createTransaction);
 
         }
+        await mapping_service.updateMappingHomogeneousStatus(email, token, transaction_data[0].mapping_id, transaction_data[0].submitted_homo, false);
         await mapping_service.updateMappingStatus(email, token, transaction_data[0].mapping_id, 3, transaction_data[0].last_updated_date, transaction_data[0].last_updated_by, false);
         await trigger_details.updateResponseDate(email, token, transaction_data[0].mapping_id, transaction_data[0].response_date, false);
         const updated_transaction = await getByMappingId(email, token, transaction_data[0].mapping_id, false);
