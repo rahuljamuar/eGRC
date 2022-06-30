@@ -62,3 +62,58 @@
 {"level":"info","message":"validateToken","meta":{"execution_time":1,"module":"Token"},"timestamp":"2022-05-10T16:42:38.807Z"}
 {"level":"info","message":"getMappingByUserCurrentMonth","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":"U_4"},"timestamp":"2022-05-10T16:42:38.810Z"}
 {"level":"info","message":"getMappingByUserCurrentMonth","meta":{"execution_time":2456,"module":"Mapping"},"timestamp":"2022-05-10T16:42:41.267Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-25T16:39:38.581Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-05-25T16:39:40.197Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"POST","url":"/api/file/container/"},"timestamp":"2022-05-25T16:44:11.305Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-25T16:44:11.309Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-25T16:44:11.311Z"}
+{"level":"info","message":"createContainer","meta":{"email":"Sajith.K@unilever.com","module":"File","parameter":""},"timestamp":"2022-05-25T16:44:11.312Z"}
+{"level":"info","message":"createContainer","meta":{"email":"","module":"FileHelper","parameter":""},"timestamp":"2022-05-25T16:44:11.314Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":1147,"module":"FileHelper"},"timestamp":"2022-05-25T16:44:12.462Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":1149,"module":"File"},"timestamp":"2022-05-25T16:44:12.463Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"DELETE","url":"/api/file/container/"},"timestamp":"2022-05-25T16:44:33.991Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-25T16:44:33.996Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-25T16:44:33.996Z"}
+{"level":"info","message":"deleteContainer","meta":{"email":"Sajith.K@unilever.com","module":"File","parameter":""},"timestamp":"2022-05-25T16:44:33.998Z"}
+{"level":"info","message":"deleteContainer","meta":{"email":"","module":"FileHelper","parameter":""},"timestamp":"2022-05-25T16:44:33.999Z"}
+{"level":"info","message":"deleteContainer","meta":{"execution_time":269,"module":"FileHelper"},"timestamp":"2022-05-25T16:44:34.268Z"}
+{"level":"info","message":"deleteContainer","meta":{"execution_time":270,"module":"File"},"timestamp":"2022-05-25T16:44:34.269Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"POST","url":"/api/file/container/"},"timestamp":"2022-05-25T16:46:55.237Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-25T16:46:55.240Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-25T16:46:55.241Z"}
+{"level":"info","message":"createContainer","meta":{"email":"Sajith.K@unilever.com","module":"File","parameter":""},"timestamp":"2022-05-25T16:46:55.246Z"}
+{"level":"info","message":"createContainer","meta":{"email":"","module":"FileHelper","parameter":""},"timestamp":"2022-05-25T16:46:55.249Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":248,"module":"FileHelper"},"timestamp":"2022-05-25T16:46:55.498Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":251,"module":"File"},"timestamp":"2022-05-25T16:46:55.499Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"DELETE","url":"/api/mapping/reset/"},"timestamp":"2022-05-25T17:04:49.435Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-25T17:04:49.437Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-25T17:04:49.437Z"}
+{"level":"info","message":"resetMapping","meta":{"email":"Sajith.K@unilever.com","module":"Mapping","parameter":""},"timestamp":"2022-05-25T17:04:49.438Z"}
+{"level":"info","message":"resetMapping","meta":{"execution_time":3942,"module":"Mapping"},"timestamp":"2022-05-25T17:04:53.382Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-05-27T16:40:21.279Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-05-27T16:40:22.902Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"DELETE","url":"/api/file/container/"},"timestamp":"2022-05-27T16:40:39.072Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-27T16:40:39.077Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-27T16:40:39.080Z"}
+{"level":"info","message":"deleteContainer","meta":{"email":"Sajith.K@unilever.com","module":"File","parameter":""},"timestamp":"2022-05-27T16:40:39.083Z"}
+{"level":"info","message":"deleteContainer","meta":{"email":"","module":"FileHelper","parameter":""},"timestamp":"2022-05-27T16:40:39.085Z"}
+{"level":"info","message":"deleteContainer","meta":{"execution_time":1304,"module":"FileHelper"},"timestamp":"2022-05-27T16:40:40.390Z"}
+{"level":"info","message":"deleteContainer","meta":{"execution_time":1306,"module":"File"},"timestamp":"2022-05-27T16:40:40.391Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"POST","url":"/api/file/container/"},"timestamp":"2022-05-27T16:41:20.687Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-05-27T16:41:20.690Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-05-27T16:41:20.691Z"}
+{"level":"info","message":"createContainer","meta":{"email":"Sajith.K@unilever.com","module":"File","parameter":""},"timestamp":"2022-05-27T16:41:20.692Z"}
+{"level":"info","message":"createContainer","meta":{"email":"","module":"FileHelper","parameter":""},"timestamp":"2022-05-27T16:41:20.693Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":249,"module":"FileHelper"},"timestamp":"2022-05-27T16:41:20.943Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":251,"module":"File"},"timestamp":"2022-05-27T16:41:20.944Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-06-30T16:17:08.236Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-06-30T16:17:09.855Z"}
+{"level":"info","message":"Incoming request","meta":{"IP":[],"method":"POST","url":"/api/file/container/"},"timestamp":"2022-06-30T16:17:47.299Z"}
+{"level":"info","message":"validateToken","meta":{"email":"Sajith.K@unilever.com","module":"Token","parameter":""},"timestamp":"2022-06-30T16:17:47.302Z"}
+{"level":"info","message":"validateToken","meta":{"execution_time":0,"module":"Token"},"timestamp":"2022-06-30T16:17:47.304Z"}
+{"level":"info","message":"createContainer","meta":{"email":"Sajith.K@unilever.com","module":"File","parameter":""},"timestamp":"2022-06-30T16:17:47.306Z"}
+{"level":"info","message":"createContainer","meta":{"email":"","module":"FileHelper","parameter":""},"timestamp":"2022-06-30T16:17:47.309Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":6391,"module":"FileHelper"},"timestamp":"2022-06-30T16:17:53.701Z"}
+{"level":"info","message":"createContainer","meta":{"execution_time":6394,"module":"File"},"timestamp":"2022-06-30T16:17:53.702Z"}
+{"level":"info","message":"Server started at port 8080","timestamp":"2022-06-30T16:21:24.060Z"}
+{"level":"info","message":"Database connected successfully","timestamp":"2022-06-30T16:21:25.696Z"}
