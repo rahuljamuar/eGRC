@@ -162,6 +162,9 @@ const updateTransactionByAdmin = async (email, token, transaction_data) => {
             if (transaction_data[i].admin_approval == "Rejected") {
                 admin_approval = false;
             }
+            if (transaction_data[i].compliant_status == "Rectifiable") {
+                admin_approval = false;
+            }
             const pool = await poolPromise;
             const sql_queries = await utils.loadSqlQueries('transaction');
             const mapping_count = await pool.request()
