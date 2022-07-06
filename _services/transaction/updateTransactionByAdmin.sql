@@ -4,7 +4,7 @@ UPDATE [dbo].[transaction_details] SET
 [compliant_status] = @compliant_status,
 [last_updated_by] = @last_updated_by,
 [master_comment_date] = @last_updated_date,
-[master_response_comment] = @admin_comment
+[master_response_comment] = @admin_comment,
 [admin_compliance_comment] = @admin_compliance_comment
 WHERE
 [transaction_id] = @transaction_id
