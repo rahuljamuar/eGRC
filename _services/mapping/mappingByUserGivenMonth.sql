@@ -30,6 +30,7 @@ C.control_name,
 C.control_description,
 C.control_frequency,
 C.Performance_locations,
+C.control_tip,
 C.process,
 E.control_owner_desc AS status
 from mapping_table A left join user_details B on A.user_id=B.user_id

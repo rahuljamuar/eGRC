@@ -27,6 +27,7 @@ C.control_name,
 C.control_description,
 C.control_frequency,
 C.Performance_locations,
+C.control_tip,
 E.control_reviewer_desc AS status
 from mapping_table A left join control_manager_details B on A.mgr_id=B.mgr_id
 left join control_details C on C.control_id=A.control_id and C.control=A.control
