@@ -26,8 +26,48 @@ const getAdminDropdown = async (req, res, next) => {
 
 }
 
+const controlUpdateDropdown = async (req, res, next) => {    
+    utility_service.controlUpdateDropdown(req.headers.email, req.headers.token)
+        .then(control_dropdown => control_dropdown ? res.json(control_dropdown) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
+const countryUpdateDropdown = async (req, res, next) => {    
+    utility_service.countryUpdateDropdown(req.headers.email, req.headers.token)
+        .then(country_dropdown => country_dropdown ? res.json(country_dropdown) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
+const questionUpdateDropdown = async (req, res, next) => {    
+    utility_service.questionUpdateDropdown(req.headers.email, req.headers.token)
+        .then(question_dropdown => question_dropdown ? res.json(question_dropdown) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
+const ownerUpdateDropdown = async (req, res, next) => {    
+    utility_service.ownerUpdateDropdown(req.headers.email, req.headers.token)
+        .then(owner_dropdown => owner_dropdown ? res.json(owner_dropdown) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
+const reviewerUpdateDropdown = async (req, res, next) => {    
+    utility_service.reviewerUpdateDropdown(req.headers.email, req.headers.token)
+        .then(reviewer_dropdown => reviewer_dropdown ? res.json(reviewer_dropdown) : res.sendStatus(404))
+        .catch(err => next(err));
+
+}
+
 module.exports = {
     getOwnerDropdown,
     getReviewerDropdown,
-    getAdminDropdown
+    getAdminDropdown,
+    controlUpdateDropdown,
+    countryUpdateDropdown,
+    questionUpdateDropdown,
+    ownerUpdateDropdown,
+    reviewerUpdateDropdown
 }

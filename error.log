@@ -1,1 +1,2 @@
 {"level":"error","message":"updateMappingHomogeneousStatus","meta":{"email":"abc","error_message":"update is not defined","module":"Mapping","parameter":"33, 0"},"timestamp":"2022-07-23T07:51:49.272Z"}
+{"level":"error","message":"ownerUpdateDropdown","meta":{"email":"rahul","error_message":"id_theme is not defined","module":"Utility","parameter":""},"timestamp":"2022-07-26T17:43:01.657Z"}
