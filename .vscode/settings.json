@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/1759ce9c-ba37-41f9-8507-c81c62128c03/microsoft.web/sites/subscriptions/1759ce9c-ba37-41f9-8507-c81c62128c03/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/egrc-server-dev",
+    "appService.deploySubpath": "."
+}

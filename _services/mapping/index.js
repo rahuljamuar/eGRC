@@ -216,7 +216,7 @@ const updateMappingStatus = async (email, token, mapping_id, status, last_update
         const sql_queries = await utils.loadSqlQueries('mapping');
         const update = await pool.request()
             .input('mapping_id', sql.Numeric, mapping_id)
-            .input('status', sql.Numeric, status)            
+            .input('status', sql.Numeric, status)
             .input('last_updated_date', sql.SmallDateTime, last_updated_date)
             .input('last_updated_by', sql.NVarChar, last_updated_by)
             .query(sql_queries.updateMappingStatus);
@@ -228,27 +228,47 @@ const updateMappingStatus = async (email, token, mapping_id, status, last_update
     }
 }
 
-const updateMappingHomogeneousStatus = async (email, token, mapping_id, submitted_homo, validate_token = true) => {
+const updateMappingHomogeneousStatus = async (email, token, mapping_id, submitted_homo, executing_month, executing_year, user_id, identify_homo, validate_token = true) => {
     if (validate_token) {
         await validateToken(email, token);
     }
     try {
-        createLogs("info", "updateMappingHomogeneousStatus", "Mapping", email, mapping_id + ", " + submitted_homo, "");
+        createLogs("info", "updateMappingHomogeneousStatus", "Mapping", email, mapping_id + ", " + submitted_homo + ", " + executing_month + ", " + executing_year + ", " + user_id + ", " + identify_homo, "");
         var start = new Date();
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('mapping');
-        const update = await pool.request()
-            .input('mapping_id', sql.Numeric, mapping_id)           
-            .input('submitted_homo', sql.Bit, submitted_homo)           
+        await pool.request()
+            .input('mapping_id', sql.Numeric, mapping_id)
+            .input('submitted_homo', sql.Bit, submitted_homo)
             .query(sql_queries.updateMappingHomogeneousStatus);
+        if (submitted_homo == 0 && identify_homo != null) {
+            await pool.request()
+                .input('mapping_id', sql.Numeric, mapping_id)
+                .query(sql_queries.updateMappingIdentifyHomogeneous);
+
+            const get_mapping_id = await pool.request()
+                .input('executing_month', sql.NVarChar, executing_month)
+                .input('executing_year', sql.NVarChar, executing_year)
+                .input('user_id', sql.NVarChar, user_id)
+                .input('identify_homo', sql.NVarChar, identify_homo)
+                .query(sql_queries.mappingsForHomogeneousUpdate);
+
+            var result_mapping = JSON.stringify(get_mapping_id.recordset);
+            var temp_id_mapping = result_mapping.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
+            var id_mapping = JSON.parse(temp_id_mapping);
+            if (id_mapping.length == 1) {
+                await pool.request()
+                    .input('mapping_id', sql.Numeric, id_mapping[0].mapping_id)
+                    .query(sql_queries.updateMappingIdentifyHomogeneous);
+            }
+
+        }
         elapsedTime(start, "updateMappingHomogeneousStatus", "Mapping");
-        return update.recordset;
     } catch (error) {
-        createLogs("error", "updateMappingHomogeneousStatus", "Mapping", email, mapping_id + ", " + submitted_homo, error.message);
+        createLogs("error", "updateMappingHomogeneousStatus", "Mapping", email, mapping_id + ", " + submitted_homo + ", " + executing_month + ", " + executing_year + ", " + user_id + ", " + identify_homo, error.message);
         throw error;
     }
 }
-
 
 const updateMappingFreeze = async (email, token, mapping_id, freeze, validate_token = true) => {
     if (validate_token) {
