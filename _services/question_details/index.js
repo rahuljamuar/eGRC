@@ -24,7 +24,54 @@ const getBySetNo = async (email, token, set_no) => {
     }
 }
 
+const getQuestionBySetAndTheme = async (email, token, set, theme) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "getQuestionBySetAndTheme", "Question", email, set, "");
+        var start = new Date();
+        var temp = {};
+        temp.file_name = "Question.xlsx";
+        temp.content = "data:application/vnd.ms-excel;base64,0M8R4KGxGuEAAAAAAAA";
+        elapsedTime(start, "getQuestionBySetAndTheme", "Question");
+        return temp;
+    } catch (error) {
+        createLogs("error", "getQuestionBySetAndTheme", "Question", email, country, error.message);
+        throw error;
+    }
+}
+
+const createQuestionDetails = async (email, token, question_file) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "createQuestionDetails", "Question", email, "", "");
+        var start = new Date();
+       
+        elapsedTime(start, "createQuestionDetails", "Question");
+        return "Success";
+    } catch (error) {
+        createLogs("error", "createQuestionDetails", "Question", email, "", error.message);
+        throw error;
+    }
+}
+
+const updateQuestionDetails = async (email, token, country_file) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "updateQuestionDetails", "Question", email, "", "");
+        var start = new Date();
+       
+        elapsedTime(start, "updateQuestionDetails", "Question");
+        return "Success";
+    } catch (error) {
+        createLogs("error", "updateQuestionDetails", "Question", email, "", error.message);
+        throw error;
+    }
+}
+
 
 module.exports = {
-    getBySetNo
+    getBySetNo,
+    getQuestionBySetAndTheme,    
+    createQuestionDetails,
+    updateQuestionDetails
 }

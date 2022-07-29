@@ -5,6 +5,7 @@ const createLogs = require('../../_helpers/createLogs');
 const elapsedTime = require('../../_helpers/elapsedTime');
 const validateToken = require('../../_helpers/validateToken');
 
+
 const getByEmailId = async(email, token, email_id) => {
     await validateToken(email, token);
     try {
@@ -24,7 +25,54 @@ const getByEmailId = async(email, token, email_id) => {
     }
 }
 
+const getReviewerByStatus = async (email, token, status) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "getReviewerByStatus", "Reviewer", email, status, "");
+        var start = new Date();
+        var temp = {};
+        temp.file_name = "Reviewer.xlsx";
+        temp.content = "data:application/vnd.ms-excel;base64,0M8R4KGxGuEAAAAAAAA";
+        elapsedTime(start, "getReviewerByStatus", "Reviewer");
+        return temp;
+    } catch (error) {
+        createLogs("error", "getReviewerByStatus", "Reviewer", email, status, error.message);
+        throw error;
+    }
+}
+
+const createReviewerDetails = async (email, token, reviewer_file) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "createReviewerDetails", "Reviewer", email, "", "");
+        var start = new Date();
+       
+        elapsedTime(start, "createReviewerDetails", "Reviewer");
+        return "Success";
+    } catch (error) {
+        createLogs("error", "createReviewerDetails", "Reviewer", email, "", error.message);
+        throw error;
+    }
+}
+
+const updateReviewerDetails = async (email, token, owner_file) => {
+    await validateToken(email, token);
+    try {
+        createLogs("info", "updateReviewerDetails", "Reviewer", email, "", "");
+        var start = new Date();
+       
+        elapsedTime(start, "updateReviewerDetails", "Reviewer");
+        return "Success";
+    } catch (error) {
+        createLogs("error", "updateReviewerDetails", "Reviewer", email, "", error.message);
+        throw error;
+    }
+}
+
 
 module.exports = {
-    getByEmailId
+    getByEmailId,
+    getReviewerByStatus,    
+    createReviewerDetails,
+    updateReviewerDetails
 }

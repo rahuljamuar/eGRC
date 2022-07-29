@@ -1,87 +1,58 @@
 'use strict';
 const utils = require('../utils');
 const { poolPromise, sql } = require('../../_helpers/db')
-// const sql = require('mssql');
+const createLogs = require('../../_helpers/createLogs');
+const elapsedTime = require('../../_helpers/elapsedTime');
+const validateToken = require('../../_helpers/validateToken');
 
 
-const getControlDetails = async () => {
-    try {                   
-        const pool = await poolPromise;
-        const sql_queries = await utils.loadSqlQueries('control_details');        
-        const control_details_list = await pool.request().query(sql_queries.controlDetailsList);        
-        return control_details_list.recordset;
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-
-const getById = async(control_details_id) => {
+const getCountryByCountryAndMCO = async (email, token, country, mco) => {
+    await validateToken(email, token);
     try {
-        const pool = await poolPromise;
-        const sql_queries = await utils.loadSqlQueries('control_details');        
-        const control_details = await pool.request()
-                            .input('control_id', sql.NVarChar, control_details_id)
-                            .query(sql_queries.controlDetailsById);
-        return control_details.recordset;
+        createLogs("info", "getCountryByCountryAndMCO", "Country", email, country, "");
+        var start = new Date();
+        var temp = {};
+        temp.file_name = "Country.xlsx";
+        temp.content = "data:application/vnd.ms-excel;base64,0M8R4KGxGuEAAAAAAAA";
+        elapsedTime(start, "getCountryByCountryAndMCO", "Country");
+        return temp;
     } catch (error) {
-        return error.message;
+        createLogs("error", "getCountryByCountryAndMCO", "Country", email, country, error.message);
+        throw error;
     }
 }
 
-const createControlDetails = async (control_details_data) => {
+const createCountryDetails = async (email, token, country_file) => {
+    await validateToken(email, token);
     try {
-        let pool = await sql.connect(config.sql);
-        const sql_queries = await utils.loadSqlQueries('control_details');
-        const insert_control_details = await pool.request()
-                            .input('Control_id', sql.NVarChar(100), control_details_data.Control_id)
-                            .input('eventDescription', sql.NVarChar(1500), control_details_data.eventDescription)
-                            .input('startDate', sql.Date, control_details_data.startDate)
-                            .input('endDate', sql.Date, control_details_data.endDate)
-                            .input('avenue', sql.NVarChar(200), control_details_data.avenue)
-                            .input('maxMembers', sql.Int, control_details_data.maxMembers)
-                            .query(sql_queries.createControlDetails);                            
-        return insert_control_details.recordset;
+        createLogs("info", "createCountryDetails", "Country", email, "", "");
+        var start = new Date();
+       
+        elapsedTime(start, "createCountryDetails", "Country");
+        return "Success";
     } catch (error) {
-        return error.message;
+        createLogs("error", "createCountryDetails", "Country", email, "", error.message);
+        throw error;
     }
 }
 
-const updateControlDetails = async (control_details_id, data) => {
+const updateCountryDetails = async (email, token, country_file) => {
+    await validateToken(email, token);
     try {
-        let pool = await sql.connect(config.sql);
-        const sql_queries = await utils.loadSqlQueries('control_details');
-        const update = await pool.request()
-                        .input('control_details_id', sql.Int, control_details_id)
-                        .input('eventTitle', sql.NVarChar(100), data.eventTitle)
-                        .input('eventDescription', sql.NVarChar(1500), data.eventDescription)
-                        .input('startDate', sql.Date, data.startDate)
-                        .input('endDate', sql.Date, data.endDate)
-                        .input('avenue', sql.NVarChar(200), data.avenue)
-                        .input('maxMembers', sql.Int, data.maxMembers)
-                        .query(sql_queries.updateControlDetails);
-        return update.recordset;
+        createLogs("info", "updateCountryDetails", "Country", email, "", "");
+        var start = new Date();
+       
+        elapsedTime(start, "updateCountryDetails", "Country");
+        return "Success";
     } catch (error) {
-        return error.message;
+        createLogs("error", "updateCountryDetails", "Country", email, "", error.message);
+        throw error;
     }
 }
 
-const deleteControlDetails = async (control_details_id) => {
-    try {
-        let pool = await sql.connect(config.sql);
-        const sql_queries = await utils.loadSqlQueries('control_details');
-        const deleteControlDetails = await pool.request()
-                            .input('control_details_id', sql.Int, control_details_id)
-                            .query(sql_queries.deleteControlDetails);
-        return deleteControlDetails.recordset;
-    } catch (error) {
-        return error.message;
-    }
-}
 
 module.exports = {
-    getControlDetails,
-    getById,
-    createControlDetails,
-    updateControlDetails,
-    deleteControlDetails
+    getCountryByCountryAndMCO,    
+    createCountryDetails,
+    updateCountryDetails
 }

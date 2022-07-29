@@ -12,11 +12,14 @@ const mapping_routes = require('./_routes/mapping');
 const share_link_routes = require('./_routes/share_link');
 const transaction_routes = require('./_routes/transaction');
 const utility_routes = require('./_routes/utility');
-const user_routes = require('./_routes/user_details');
+const user_routes = require('./_routes/owner_details');
 const reviewer_routes = require('./_routes/reviewer_details');
 const admin_routes = require('./_routes/admin_details');
 const file_routes = require('./_routes/file');
 const role_routes = require('./_routes/role');
+const control_details_routes = require('./_routes/control_details');
+const country_details_routes = require('./_routes/country_details');
+const owner_details_routes = require('./_routes/owner_details');
 
 
 
@@ -45,6 +48,9 @@ app.use('/api/reviewer', reviewer_routes.routes);
 app.use('/api/admin', admin_routes.routes);
 app.use('/api/file', file_routes.routes);
 app.use('/api/role', role_routes.routes);
+app.use('/api/control', control_details_routes.routes);
+app.use('/api/country', country_details_routes.routes);
+app.use('/api/owner', owner_details_routes.routes);
 
 
 // global error handler

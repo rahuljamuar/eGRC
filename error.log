@@ -1,2 +1,2 @@
-{"level":"error","message":"updateMappingHomogeneousStatus","meta":{"email":"abc","error_message":"update is not defined","module":"Mapping","parameter":"33, 0"},"timestamp":"2022-07-23T07:51:49.272Z"}
-{"level":"error","message":"ownerUpdateDropdown","meta":{"email":"rahul","error_message":"id_theme is not defined","module":"Utility","parameter":""},"timestamp":"2022-07-26T17:43:01.657Z"}
+{"level":"error","message":"getByEmailId","meta":{"email":"Sajith.K@unilever.com","error_message":"ENOENT: no such file or directory, scandir 'D:\\eGRC\\_services\\user_details'","module":"User"},"timestamp":"2022-07-29T17:18:52.626Z"}
+{"level":"error","message":"getOwnerByFunctionAndTeam","meta":{"email":"Sajith.K@unilever.com","error_message":"set is not defined","module":"Owner"},"timestamp":"2022-07-29T17:21:04.469Z"}
