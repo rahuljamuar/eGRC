@@ -1,0 +1,20 @@
+INSERT INTO [dbo].[control_manager_details]
+    (
+        [mgr_id],
+        [control_manager],
+        [control_manager_email_id],
+        [created_by],        
+        [created_date],        
+        [last_updated_date],
+        [is_active]
+    )
+VALUES 
+    (
+        @mgr_id,
+        @control_manager,
+        @control_manager_email_id,
+        @created_by,       
+        @created_date,       
+        @last_updated_date,
+        @is_active
+    )

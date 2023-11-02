@@ -1,6 +1,7 @@
 const config = require('../config');
 const createLogs = require('./createLogs');
 const elapsedTime = require('./elapsedTime');
+const fs = require('fs');
 const { BlobServiceClient, BaseRequestPolicy, newPipeline, AnonymousCredential } = require("@azure/storage-blob");
 
 const account = process.env.AZURE_STORAGE_ACCOUNT_NAME || "";
@@ -93,7 +94,7 @@ async function deleteContainer(container_name) {
     } catch (error) {
         createLogs("error", "deleteContainer", "FileHelper", "", "", error.message);
         throw error;
-    }    
+    }
 }
 
 async function listDirectories(container_name) {
@@ -139,25 +140,25 @@ async function uploadFile(file_param, file_path) {
         const container_name = process.env.CONTAINER;
         var file_object = {};
         var size = file_param.size;
-        if(size >= 1048576){
-            file_object.file_size =  Math.round(size / (1024 * 1024)) + " MB";
-        } else if(size > 1024 && size < 1048576){
-            file_object.file_size =  Math.round(size / 1024) + " KB";
+        if (size >= 1048576) {
+            file_object.file_size = Math.round(size / (1024 * 1024)) + " MB";
+        } else if (size > 1024 && size < 1048576) {
+            file_object.file_size = Math.round(size / 1024) + " KB";
         }
-        else{
-            file_object.file_size =  size + " Bytes";
+        else {
+            file_object.file_size = size + " Bytes";
         }
         file_object.file_name = file_param.name;
         file_object.mime_type = file_param.mimetype;
-        
+
         const containerClient = blobServiceClient.getContainerClient(container_name);
         const blockBlobClient = containerClient.getBlockBlobClient(file_path + file_object.file_name);
         file_object.file_exist = await blockBlobClient.exists();
         await blockBlobClient.uploadData(file_param.data)
         elapsedTime(start, "uploadFile", "FileHelper");
         return file_object;
-    } catch (error) {
-        createLogs("error", "uploadFile", "FileHelper", "", "", error.message);
+    } catch (error) {        
+        createLogs("error", "uploadFile", "FileHelper", "", "", error);
         throw error;
     }
 
@@ -220,6 +221,45 @@ async function streamToBase64(readableStream) {
     });
 }
 
+async function upload_local(temp_file, file_name, dir_path, email) {
+    //Storing the file temporarily on TMS Server 
+
+    // await fs.promises.mkdir(dir_path, { recursive: true });
+
+    fs.mkdir(dir_path, { recursive: true }, (err) => {
+        if (err) {
+            createLogs("error", "upload_local", "FileHelper", "", "", err);
+            return console.error(err);
+        }
+        createLogs("info", "upload_local", "FileHelper", "Directory created successfully!", "", "");
+    });
+
+    return new Promise((resolve, reject) => {
+        temp_file.mv(dir_path + '/' + file_name, async function (err) {
+            if (err)
+                return res.status(500).send(err);
+
+            createLogs("info", "upload_local", "FileHelper", email, "File uploaded into user folder. Requested by " + email, "");
+            resolve("Uploaded")
+        });
+    });
+
+}
+
+async function delete_local(file_name, dir_path, email) {    
+
+    fs.unlink(dir_path + '/' + file_name, async function (err) {
+        if (err) return console.log(err);
+        createLogs("info", "delete_local", "FileHelper", email, "File deleted from user folder. Requested by " + email, "");        
+    });
+
+    /** below code to test on windows */
+    // fs.rmdirSync(dir_path, { recursive: true }, async function (err) {
+    //     if (err) return console.log(err);
+    //     logger.info("File deleted from user folder. Requested by " + user_id);
+    // });
+}
+
 module.exports = {
     listContainers,
     createContainer,
@@ -228,5 +268,7 @@ module.exports = {
     listAllFiles,
     uploadFile,
     downloadFile,
-    deleteFile
+    deleteFile,
+    upload_local,
+    delete_local
 }

@@ -1,0 +1,1 @@
+SELECT TOP 1 mgr_id FROM [dbo].[control_manager_details] ORDER BY mgr_id DESC

@@ -1,0 +1,28 @@
+INSERT INTO [dbo].[user_details]
+    (
+        [user_id],
+        [functions],
+        [team],
+        [position],
+        [control_owner],
+        [control_owner_email],
+        [created_by],
+        [created_date],
+        [last_updated_by],
+        [last_update_date],
+        [is_active]
+    )
+VALUES 
+    (
+        @user_id,
+        @functions,
+        @team,
+        @position,
+        @control_owner,
+        @control_owner_email,
+        @created_by,
+        @created_date,
+        @last_updated_by,
+        @last_update_date,
+        @is_active
+    )

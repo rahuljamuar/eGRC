@@ -49,7 +49,7 @@ const createFile = async (email, token, files, file_param, validate_token = true
     }
     try {
         createLogs("info", "createFile", "File", email, "", "");
-        createLogs("info", "createFileTemp", "File", file_param, files, "");
+        // createLogs("info", "createFileTemp", "File", file_param, files, "");
         var start = new Date();
         const pool = await poolPromise;
         const sql_queries = await utils.loadSqlQueries('file');

@@ -1,0 +1,1 @@
+SELECT TOP 1 user_id FROM [dbo].[user_details] ORDER BY user_id DESC
