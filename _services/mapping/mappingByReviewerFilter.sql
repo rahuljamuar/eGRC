@@ -19,9 +19,13 @@
 -- A.mgr_id,
 -- A.executing_month,
 -- A.executing_year, 
+-- A.Submitted_Homo_control,
+-- A.last_updated_date,
+-- A.last_updated_by,
 -- B.control_manager,
 -- B.control_manager_email_id,
 -- A.country_id, 
+-- A.Indentify_Homo,
 -- D.country_name,
 -- A.control_id, 
 -- A.control,
@@ -29,6 +33,7 @@
 -- C.control_description,
 -- C.control_frequency,
 -- C.Performance_locations,
+-- C.control_tip,
 -- E.control_reviewer_desc AS status
 -- from mapping_table A left join control_manager_details B on A.mgr_id=B.mgr_id
 -- left join control_details C on C.control_id=A.control_id and C.control=A.control
@@ -42,10 +47,10 @@
 -- and (@control = '' OR @control = A.control)
 -- and (@status_id = 0 OR @status_id = A.status_id)
 -- and A.freezed=@freezed
+-- and A.is_active='Y'
 -- and B.is_active='Y'
 -- and C.is_active='Y'
 -- and D.active='Y'
--- and A.status_id != 1
 -- and A.status_id != 5
 
 -- END

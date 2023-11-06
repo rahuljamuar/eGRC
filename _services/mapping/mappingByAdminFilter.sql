@@ -20,26 +20,37 @@
 -- A.executing_month,
 -- A.executing_year, 
 -- A.country_id, 
+-- A.Indentify_Homo,
+-- A.Submitted_Homo_control,
+-- A.last_updated_date,
+-- A.last_updated_by,
 -- D.country_name,
 -- A.control_id, 
 -- A.control,
+-- A.freezed,
 -- C.control_name,
 -- C.control_description,
 -- C.control_frequency,
 -- C.Performance_locations,
+-- C.control_tip,
+-- U.control_owner,
+-- M.control_manager,
 -- E.master_desc AS status
 -- from mapping_table A 
 -- left join control_details C on C.control_id=A.control_id and C.control=A.control
 -- left join country_details D on D.country_id=A.country_id
+-- left join user_details U on U.user_id=A.user_id
+-- left join control_manager_details M on M.mgr_id=A.mgr_id
 -- left join status_mapping_table E on E.id=A.status_id
 -- where
 -- (@executing_Month = '' OR @executing_Month = A.executing_Month)
 -- and (@executing_year = 0 OR @executing_year = A.executing_year)
 -- and (@country_id = 0 OR @country_id = A.country_id)
 -- and (@control = '' OR @control = A.control)
--- and (@process = '' OR @process = A.process)
+-- and (@process = '' OR @process = C.process)
 -- and (@status_id = 0 OR @status_id = A.status_id)
--- and A.freezed=@freezed
+-- and A.status_id != 5
+-- and A.is_active='Y'
 -- and C.is_active='Y'
 -- and D.active='Y'
 -- END
